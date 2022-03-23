@@ -23,13 +23,7 @@
         "scssphp/scssphp": "dev-master",
         "composer/composer": "dev-main",
         "colibri/ui": "dev-master",
-        "colibri/core": "dev-master",
-        "colibri/printserver-api-client": "dev-master",
-        "colibri/fileserver-api-client": "dev-master",
-        "colibri/conf-api-client": "dev-master",
-        "colibri/comet-api-client": "dev-master",
-        "colibri/mainframe": "dev-master",
-        "colibri/authorization": "dev-master"
+        "colibri/core": "dev-master"
     },
     "autoload": {
         "psr-4": {
