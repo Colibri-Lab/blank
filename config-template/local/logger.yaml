@@ -1,0 +1,11 @@
+# Настройки logger-а GrayLog
+# Logger создается в App и содержится в переменной App::$log
+# Использовать App::$log->WriteLine()
+# type: Graylog, File, Memory
+type: File
+# levels: Debug = 7, Informational = 6, Notice = 5, Warning = 4, Error = 3, Critical = 2, Alert = 1, Emergency = 0
+level: 7
+# для GrayLog - обьект вида server, port
+# для File - строка пусть к файлу
+# для Memory - пустая строка dummy
+device: _cache/log/app.log
