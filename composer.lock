@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc827f40b6ecdfd6a1c0852e989b7292",
+    "content-hash": "12a0b7b231c01a447011ac38772bf49c",
     "packages": [
+        {
+            "name": "colibri/authorization",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/wholesale/authorization.git",
+                "reference": "b5d802f4bca3c7e476c09669ec1aa6e2da9d7405"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/5/packages/composer/archives/colibri/authorization.zip?sha=b5d802f4bca3c7e476c09669ec1aa6e2da9d7405",
+                "reference": "b5d802f4bca3c7e476c09669ec1aa6e2da9d7405",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/comet-api-client": "dev-master",
+                "colibri/core": "dev-master",
+                "colibri/ui": "dev-master"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\Modules\\Authorization\\": "src/Authorization/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vahan Grigoryan",
+                    "email": "vahan.grigoryan@gmail.com"
+                }
+            ],
+            "description": "Colibri Authorization Module"
+        },
         {
             "name": "colibri/comet-api-client",
             "version": "dev-master",
@@ -143,6 +179,35 @@
                 }
             ],
             "description": "API клиент для файлового хранилища"
+        },
+        {
+            "name": "colibri/mainframe",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/wholesale/mainframe.git",
+                "reference": "41e8898a952a36ca78e2176ac774cabf861aa005"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/6/packages/composer/archives/colibri/mainframe.zip?sha=41e8898a952a36ca78e2176ac774cabf861aa005",
+                "reference": "41e8898a952a36ca78e2176ac774cabf861aa005",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/core": "dev-master",
+                "colibri/ui": "dev-master"
+            },
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\Modules\\MainFrame\\": "src/MainFrame/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Buhsoft Main Frame"
         },
         {
             "name": "colibri/printserver-api-client",
@@ -2353,7 +2418,9 @@
         "colibri/printserver-api-client": 20,
         "colibri/fileserver-api-client": 20,
         "colibri/conf-api-client": 20,
-        "colibri/comet-api-client": 20
+        "colibri/comet-api-client": 20,
+        "colibri/mainframe": 20,
+        "colibri/authorization": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

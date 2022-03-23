@@ -27,7 +27,9 @@
         "colibri/printserver-api-client": "dev-master",
         "colibri/fileserver-api-client": "dev-master",
         "colibri/conf-api-client": "dev-master",
-        "colibri/comet-api-client": "dev-master"
+        "colibri/comet-api-client": "dev-master",
+        "colibri/mainframe": "dev-master",
+        "colibri/authorization": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +37,10 @@
         }
     },
     "repositories": {
+        "gitlab.repeatme.online/4": {
+            "type": "composer",
+            "url": "https://gitlab.repeatme.online/api/v4/group/4/-/packages/composer/packages.json"
+        },
         "gitlab.repeatme.online/22": {
             "type": "composer",
             "url": "https://gitlab.repeatme.online/api/v4/group/22/-/packages/composer/packages.json"
