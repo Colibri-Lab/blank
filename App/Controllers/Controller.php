@@ -19,7 +19,7 @@ use Exception;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use Colibri\Utils\Cache\Bundle;
-use ConfApiClient\Client;
+use VaultApiClient\Client;
 
 /**
  * Контроллер по умолчанию
@@ -30,45 +30,11 @@ class Controller extends WebController
 {
 
     /**
-     * Сохранение токена
-     * @param mixed $get
-     * @param mixed $post
-     * @param mixed $payload
-     * @return void
-     */
-    public function SaveToken($get, $post, $payload)
-    {
-        $token = App::$request->headers->authorization;
-        $_SESSION['OLD_TOKEN'] = $token;
-        return $this->Finish(
-            200,
-            ''
-        );
-    }
-
-    /**
-     * Сохранение года
-     * @param mixed $get
-     * @param mixed $post
-     * @param mixed $payload
-     * @return void
-     */
-    public function SaveYear($get, $post, $payload)
-    {
-        $year = $post->year;
-        $_SESSION['CURRENT_YEAR'] = $year;
-        return $this->Finish(
-            200,
-            ''
-        );
-    }
-
-    /**
      * Метод по умолчанию
      * @param mixed $get
      * @param mixed $post
      * @param mixed $payload
-     * @return void
+     * @return object
      */
     public function Index($get, $post, $payload)
     {
@@ -80,7 +46,7 @@ class Controller extends WebController
                     $scss = new Compiler();
                     $scss->setOutputStyle(OutputStyle::EXPANDED);
                     $args->content = $scss->compileString($args->content)->getCss();
-                } catch (\Exception $e) {
+                } catch (\Throwable $e) {
                     Debug::Out($e->getMessage());
                 }
             }
@@ -132,7 +98,7 @@ class Controller extends WebController
      * @param mixed $get
      * @param mixed $post
      * @param mixed $payload
-     * @return void
+     * @return object
      */
     public function Vault($get, $post, $payload)
     {

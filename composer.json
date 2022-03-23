@@ -23,7 +23,11 @@
         "scssphp/scssphp": "dev-master",
         "composer/composer": "dev-main",
         "colibri/ui": "dev-master",
-        "colibri/core": "dev-master"
+        "colibri/core": "dev-master",
+        "colibri/printserver-api-client": "dev-master",
+        "colibri/fileserver-api-client": "dev-master",
+        "colibri/conf-api-client": "dev-master",
+        "colibri/comet-api-client": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +35,10 @@
         }
     },
     "repositories": {
+        "gitlab.repeatme.online/22": {
+            "type": "composer",
+            "url": "https://gitlab.repeatme.online/api/v4/group/22/-/packages/composer/packages.json"
+        },
         "gitlab.repeatme.online/7": {
             "type": "composer",
             "url": "https://gitlab.repeatme.online/api/v4/group/7/-/packages/composer/packages.json"

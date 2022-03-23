@@ -4,8 +4,76 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4861b2be1504b4d6bbd8d796ab3f788b",
+    "content-hash": "bc827f40b6ecdfd6a1c0852e989b7292",
     "packages": [
+        {
+            "name": "colibri/comet-api-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/services/clients/cometapiclient.git",
+                "reference": "57efe1b5e25f90f329c6c465b6e9165f57de9a57"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/11/packages/composer/archives/colibri/comet-api-client.zip?sha=57efe1b5e25f90f329c6c465b6e9165f57de9a57",
+                "reference": "57efe1b5e25f90f329c6c465b6e9165f57de9a57",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/core": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CometApiClient\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vahan P. Grigoryan",
+                    "email": "grigorjan@action-media.ru"
+                }
+            ],
+            "description": "Comet Api Client"
+        },
+        {
+            "name": "colibri/conf-api-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/services/clients/vaultapiclient.git",
+                "reference": "a6ef1bf743705e1f2c0b6e0d403b876b054b4da8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/10/packages/composer/archives/colibri/conf-api-client.zip?sha=a6ef1bf743705e1f2c0b6e0d403b876b054b4da8",
+                "reference": "a6ef1bf743705e1f2c0b6e0d403b876b054b4da8",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/core": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ConfApiClient\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vahan P. Grigoryan",
+                    "email": "grigorjan@action-media.ru"
+                }
+            ],
+            "description": "Conf Api Client / Vault"
+        },
         {
             "name": "colibri/core",
             "version": "dev-master",
@@ -41,6 +109,74 @@
                 }
             ],
             "description": "Colibri Framework"
+        },
+        {
+            "name": "colibri/fileserver-api-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/services/clients/fileserverapiclient.git",
+                "reference": "8fde533cf246a515db4feeb1a762798549813c91"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/9/packages/composer/archives/colibri/fileserver-api-client.zip?sha=8fde533cf246a515db4feeb1a762798549813c91",
+                "reference": "8fde533cf246a515db4feeb1a762798549813c91",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/core": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FileServerApiClient\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vahan P. Grigoryan",
+                    "email": "grigorjan@action-media.ru"
+                }
+            ],
+            "description": "API клиент для файлового хранилища"
+        },
+        {
+            "name": "colibri/printserver-api-client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://gitlab.repeatme.online/services/clients/printserverapiclient.git",
+                "reference": "7e8ef8356b45e28e672143eb293c17a7135af6fb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.repeatme.online/api/v4/projects/13/packages/composer/archives/colibri/printserver-api-client.zip?sha=7e8ef8356b45e28e672143eb293c17a7135af6fb",
+                "reference": "7e8ef8356b45e28e672143eb293c17a7135af6fb",
+                "shasum": ""
+            },
+            "require": {
+                "colibri/core": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PrintServerApiClient\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Vahan P. Grigoryan",
+                    "email": "grigorjan@action-media.ru"
+                }
+            ],
+            "description": "API клиент для сервера печати"
         },
         {
             "name": "colibri/ui",
@@ -2213,7 +2349,11 @@
         "scssphp/scssphp": 20,
         "composer/composer": 20,
         "colibri/ui": 20,
-        "colibri/core": 20
+        "colibri/core": 20,
+        "colibri/printserver-api-client": 20,
+        "colibri/fileserver-api-client": 20,
+        "colibri/conf-api-client": 20,
+        "colibri/comet-api-client": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
