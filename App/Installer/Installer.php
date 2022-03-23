@@ -24,7 +24,7 @@ class Installer
             $mode = '';
             $modes = ['local', 'dev', 'test', 'prod'];
             while(!in_array($mode, $modes)) {
-                $mode = $event->getIO()->ask('Выберите режим (local|dev|test|prod|demo) prod по умолчанию: ', 'prod');
+                $mode = $event->getIO()->ask('Выберите режим (local|test|prod) prod по умолчанию: ', 'prod');
             }
         }
         else {

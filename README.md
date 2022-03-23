@@ -1,14 +1,14 @@
 # Балванка проекта Colibri
 
 ```
-composer create-project colibri/blank-project ./#path-to-application#/ --repository="{\"url\": \"https://gitlab.repeatme.online/colibrilab/blank.git\", \"type\": \"vcs\"}" --stability=dev --remove-vcs
+composer create-project colibri/blank-project:dev-master ./#path-to-application#/ --repository="{\"url\": \"https://gitlab.repeatme.online/api/v4/group/7/-/packages/composer/packages.json\", \"type\": \"composer\"}" --stability=dev --no-dev --remove-vcs
 ```
 при установке будет задан вопрос Выберите режим (local|dev|test|prod)
 необходимо выбрать какой набор конфигурации установить, по умолчанию будет установлен режим prod
 
 для установки на прод-стенд необходимо выполнить 
 ```
-composer create-project colibri/blank-project ./#path-to-application#/ --repository="{\"url\": \"https://gitlab.repeatme.online/colibrilab/blank.git\", \"type\": \"vcs\"}" --stability=dev --remove-vcs --no-dev
+composer create-project colibri/blank-project ./#path-to-application#/ --repository="{\"url\": \"https://gitlab.repeatme.online/api/v4/group/7/-/packages/composer/packages.json\", \"type\": \"composer\"}" --stability=dev --remove-vcs --no-dev
 ```
 
 режим будет выбран prod автоматически
