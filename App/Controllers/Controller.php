@@ -122,16 +122,17 @@ class Controller extends WebController
     public function Comet($get, $post, $payload) 
     {
 
-        $comet = App::$config->Query('comet.server')->GetValue();
-        $request = new Request('https://' . $comet . '/api/CometServerApi.js', Type::Get);
-        $request->sslVerify = false;
-        $request->timeout = 1;
-        $response = $request->Execute();
-
-
-        App::$response->ContentType('text/javascript', 'utf-8');
-        App::$response->Close(200, $response->data);
-
+        // Do nothing
+        /**
+            $comet = App::$config->Query('comet.server')->GetValue()
+            $request = new Request('https://' . $comet . '/api/CometServerApi.js', Type::Get)
+            $request->sslVerify = falsу
+            $request->timeout = 1
+            $response = $request->Execute()
+            
+            App::$response->ContentType('text/javascript', 'utf-8')
+            App::$response->Close(200, $response->data)
+        */
     }
     
 
