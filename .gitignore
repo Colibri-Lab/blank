@@ -3,3 +3,4 @@
 /web/_cache/**/*.js
 /web/_cache/**/*.css
 /web/_cache/**/*.log
+composer.lock
