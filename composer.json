@@ -22,8 +22,11 @@
     "require": {
         "scssphp/scssphp": "dev-master",
         "composer/composer": "dev-main",
-        "colibri/ui": "dev-master",
-        "colibri/core": "dev-master"
+        "colibri/ui": "@dev",
+        "colibri/core": "@dev",
+        "colibri/mainframe": "@dev",
+        "colibri/authorization": "@dev",
+        "colibri/templates-api-client": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -31,6 +34,26 @@
         }
     },
     "repositories": {
+        "templatesapi": {
+            "type": "path",
+            "url": "/home/colibrilab/templatesapiclient/"
+        },
+        "authorization": {
+            "type": "path",
+            "url": "/home/colibrilab/authorization/"
+        },
+        "mainframe": {
+            "type": "path",
+            "url": "/home/colibrilab/mainframe/"
+        },
+        "core": {
+            "type": "path",
+            "url": "/home/colibrilab/core/"
+        },
+        "ui": {
+            "type": "path",
+            "url": "/home/colibrilab/core-ui/"
+        },
         "gitlab.repeatme.online/4": {
             "type": "composer",
             "url": "https://gitlab.repeatme.online/api/v4/group/4/-/packages/composer/packages.json"

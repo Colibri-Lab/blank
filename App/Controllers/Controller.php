@@ -133,6 +133,8 @@ class Controller extends WebController
             App::$response->ContentType('text/javascript', 'utf-8')
             App::$response->Close(200, $response->data)
         */
+
+        return $this->Finish(200, '', []);
     }
     
 
