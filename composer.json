@@ -25,7 +25,7 @@
         "colibri/ui": "@dev",
         "colibri/core": "@dev",
         "colibri/mainframe": "@dev",
-        "colibri/authorization": "@dev",
+        "colibri/security": "@dev",
         "colibri/templates-api-client": "@dev"
     },
     "autoload": {
@@ -38,9 +38,9 @@
             "type": "path",
             "url": "/home/colibrilab/templatesapiclient/"
         },
-        "authorization": {
+        "security": {
             "type": "path",
-            "url": "/home/colibrilab/authorization/"
+            "url": "/home/colibrilab/security/"
         },
         "mainframe": {
             "type": "path",
