@@ -20,6 +20,7 @@
     "minimum-stability": "dev",
     "stability": "dev",
     "require": {
+        "php": ">=8.0.0",
         "scssphp/scssphp": "dev-master",
         "composer/composer": "dev-main",
         "colibri/ui": "@dev",

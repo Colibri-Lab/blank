@@ -93,32 +93,6 @@ class Controller extends WebController
         return $this->Finish(200, $html);
     }
 
-    /**
-     * Метод по умолчанию
-     * @param mixed $get
-     * @param mixed $post
-     * @param mixed $payload
-     * @return object
-     */
-    public function Vault($get, $post, $payload)
-    {
-
-        if(App::$request->server->commandline) {
-            $fi = new Finder();
-            $files =  $fi->Files(App::$appRoot.'config/');
-            foreach($files as $file) {
-                Client::Vault($file->path);
-            }
-        }
-        else {
-            throw new AppException('This command is allowed only in commandline mode');
-        }
-
-
-        return $this->Finish(200, 'ok', []);
-        
-    }
-
     public function Comet($get, $post, $payload) 
     {
 
