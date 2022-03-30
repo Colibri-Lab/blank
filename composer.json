@@ -27,7 +27,8 @@
         "colibri/core": "@dev",
         "colibri/mainframe": "@dev",
         "colibri/security": "@dev",
-        "colibri/templates-api-client": "@dev"
+        "colibri/templates-api-client": "@dev",
+        "colibri/tools": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -35,6 +36,10 @@
         }
     },
     "repositories": {
+        "tools": {
+            "type": "path",
+            "url": "/home/colibrilab/tools/"
+        },
         "templatesapi": {
             "type": "path",
             "url": "/home/colibrilab/templatesapiclient/"

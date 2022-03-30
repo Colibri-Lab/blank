@@ -5,3 +5,4 @@
 /web/_cache/**/*.log
 /web/_cache/log/*
 composer.lock
+/bin/*.sh
