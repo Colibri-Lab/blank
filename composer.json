@@ -29,7 +29,9 @@
         "colibri/security": "@dev",
         "colibri/templates-api-client": "@dev",
         "colibri/tools": "@dev",
-        "colibri/fileserver-api-client": "@dev"
+        "colibri/fileserver-api-client": "@dev",
+        "colibri/manage": "@dev",
+        "colibri/sites": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -37,6 +39,14 @@
         }
     },
     "repositories": {
+        "sites": {
+            "type": "path",
+            "url": "/home/colibrilab/sites/"
+        },
+        "manage": {
+            "type": "path",
+            "url": "/home/colibrilab/manage/"
+        },
         "file-server-api-client": {
             "type": "path",
             "url": "/home/colibrilab/fileserverapiclient/"

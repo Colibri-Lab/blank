@@ -115,43 +115,5 @@ class Controller extends WebController
         return $this->Finish(200, '', []);
     }
     
-    public function File(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload): object
-    {
-        $storage = $get->storage;
-        $field = $get->field;
-        $guid = $get->guid;
-
-        if(!$storage || !$field || !$guid) {
-            return $this->Finish(400, 'Bad request', []);
-        }
-
-        $storage = Storages::Create()->Load($storage);
-        $field = $storage->GetField($field);
-        $params = $field->params;
     
-        $remote = $params['remote'];
-        $className = $remote['class'] ?? null;
-        if(!$className) {
-            return $this->Finish(400, 'Bad request', []);
-        }
-
-        $args = $remote['args'];
-        $method1 = $remote['method'][0];
-
-        $reflectionClass = new ReflectionClass($className);
-        if(!$reflectionClass->hasMethod($method1)) {
-            return $this->Finish(400, 'Bad request', []);
-        }
-
-        $classInstance = $reflectionClass->newInstanceArgs($args);
-        try {
-            $data = $classInstance->$method1($guid);
-        }
-        catch(\Throwable $e) {
-            return $this->Finish(404, 'File not found', []);
-        }
-
-        return $this->Finish(200, 'file.stream', base64_encode($data)); // $stat->name
-    }
-
 }

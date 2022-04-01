@@ -1,8 +1,7 @@
 /vendor/
 /config/
-/web/_cache/**/*.js
-/web/_cache/**/*.css
-/web/_cache/**/*.log
-/web/_cache/log/*
+/web/_cache/**/*
 composer.lock
 /bin/*.sh
+/web/res/codemirror/
+/web/res/tinymce/

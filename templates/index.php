@@ -16,14 +16,6 @@ use Colibri\Web\Templates\PhpTemplate;
 
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
 
-        <?php
-            $headerTemplates = App::$moduleManager->GetTemplates('header');
-            foreach($headerTemplates as $template) {
-                /** @var PhpTemplate $template */
-                echo $template->Render($args);
-            }
-        ?>
-
         <link rel="stylesheet" href="<?=Bundle::Automate('web.assets.css', 'scss', array_merge(
             [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
             [['path' => App::$webRoot.'res/css/']], 
@@ -35,9 +27,20 @@ use Colibri\Web\Templates\PhpTemplate;
             App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]), 
         ))?>"></script>
 
+
+        <?php
+            $headerTemplates = App::$moduleManager->GetTemplates('header');
+            foreach($headerTemplates as $template) {
+                /** @var PhpTemplate $template */
+                echo $template->Render($args);
+            }
+        ?>
+
     </head>
     <body>
+        
     </body>
+
     <?php
         $footerTemplates = App::$moduleManager->GetTemplates('footer');
         foreach($footerTemplates as $template) {
@@ -45,4 +48,5 @@ use Colibri\Web\Templates\PhpTemplate;
             echo $template->Render($args);
         }
     ?>
+
 </html>
