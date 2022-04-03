@@ -1,2 +1,1 @@
-# скрипт должен находится в папке <approot>/bin
-cd ../web && /usr/bin/php index.php localhost / command=migrate
+/home/colibrilab/mainframe/src/MainFrame/bin/mainframe-migrate.sh

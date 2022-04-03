@@ -3,5 +3,6 @@
 /web/_cache/**/*
 composer.lock
 /bin/*.sh
-/web/res/codemirror/
-/web/res/tinymce/
+/web/res/codemirror
+/web/res/tinymce
+/web/res/img/*.svg
