@@ -6,3 +6,4 @@ composer.lock
 /web/res/codemirror
 /web/res/tinymce
 /web/res/img/*.svg
+/web/res/upload
