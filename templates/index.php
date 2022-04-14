@@ -38,7 +38,13 @@ use Colibri\Web\Templates\PhpTemplate;
 
     </head>
     <body>
-        
+        <?php
+            $headerTemplates = App::$moduleManager->GetTemplates('body');
+            foreach($headerTemplates as $template) {
+                /** @var PhpTemplate $template */
+                echo $template->Render($args);
+            }
+        ?>
     </body>
 
     <?php
