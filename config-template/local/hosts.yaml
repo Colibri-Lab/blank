@@ -1,0 +1,5 @@
+main: "blank.local.bsft.loc"
+services:
+  fs: "fs.local.bsft.loc"
+  tpl: "templates.local.bsft.loc"
+  print: "printsrv.local.bsft.loc"

@@ -1,0 +1,37 @@
+path: /App/Modules
+entries:
+  - name: Security
+    desc: Система безопасности
+    entry: \Security\Module
+    enabled: true
+    visible: false
+    config: include(/config/security.yaml)
+
+  - name: MainFrame
+    desc: Основное окно административного интерфейса
+    entry: \MainFrame\Module
+    enabled: true
+    visible: false
+    config: include(/config/mainframe.yaml)
+  - name: Manage
+    desc: Административный интерфейс
+    entry: \Manage\Module
+    enabled: true
+    visible: false
+    config: include(/config/manage.yaml)
+  - name: Sites
+    desc: Разделы и хранилища материалов
+    entry: \Sites\Module
+    enabled: true
+    visible: true
+    config: include(/config/sites.yaml)
+  - name: Tools
+    desc: Инструменты
+    entry: \Tools\Module
+    enabled: true
+    visible: false
+    config: include(/config/tools.yaml)
+  - name: Pocket
+    entry: \Pocket\Module
+    enabled: true
+    config: include(/config/pocket.yaml)
