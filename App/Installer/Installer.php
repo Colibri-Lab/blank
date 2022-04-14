@@ -44,7 +44,7 @@ class Installer
                     continue;
                 }
                 if(is_file($path.$file)) {
-                    shell_exec('ln -s '.$path.$file.' ./config/'.$file);
+                    shell_exec('ln -s '.realpath($path.$file).' ./config/'.$file);
                 }
             }
         }
