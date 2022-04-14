@@ -33,7 +33,6 @@ class Installer
 
         if($mode != 'local') {
             shell_exec('mv ./config-template/'.$mode.'/ ./config && rm -R ./config-template');
-            shell_exec('chmod -R 777 ./web/_cache');    
         }
         else {
             shell_exec('mkdir ./config');
@@ -48,6 +47,7 @@ class Installer
                 }
             }
         }
+        shell_exec('chmod -R 777 ./web/_cache');    
         
     }
 
