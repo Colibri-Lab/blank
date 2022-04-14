@@ -36,6 +36,7 @@ class Installer
             shell_exec('chmod -R 777 ./web/_cache');    
         }
         else {
+            shell_exec('mkdir ./config');
             $path = './config-template/local/';
             $files = scandir($path);
             foreach($files as $file) {
