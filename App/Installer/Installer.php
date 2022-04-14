@@ -31,8 +31,22 @@ class Installer
             $mode = 'prod';
         }
 
-        shell_exec('mv ./config-template/'.$mode.'/ ./config && rm -R ./config-template');
-        shell_exec('chmod -R 777 ./web/_cache');
+        if($mode != 'local') {
+            shell_exec('mv ./config-template/'.$mode.'/ ./config && rm -R ./config-template');
+            shell_exec('chmod -R 777 ./web/_cache');    
+        }
+        else {
+            $path = './config-template/local/';
+            $files = scandir($path);
+            foreach($files as $file) {
+                if($file === '.' || $file === '..') {
+                    continue;
+                }
+                if(is_file($path.$file)) {
+                    shell_exec('ln -s '.$path.$file.' ./config/'.$file);
+                }
+            }
+        }
         
     }
 
