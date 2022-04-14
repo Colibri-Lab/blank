@@ -6,7 +6,7 @@ use Colibri\Web\Templates\PhpTemplate;
 
 ?>
 <!DOCTYPE html>
-<html lang="ru" class="gbsreps">
+<html lang="ru">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
