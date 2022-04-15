@@ -6,7 +6,6 @@ entries:
     enabled: true
     visible: false
     config: include(/config/security.yaml)
-
   - name: MainFrame
     desc: Основное окно административного интерфейса
     entry: \MainFrame\Module
