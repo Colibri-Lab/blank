@@ -114,6 +114,26 @@ class Controller extends WebController
 
         return $this->Finish(200, '', []);
     }
+
+    /**
+     * Настройки
+     * @param RequestCollection $get данные GET
+     * @param RequestCollection $post данные POST
+     * @param mixed $payload данные payload обьекта переданного через POST/PUT
+     * @return object
+     */
+    public function Settings(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload = null): object
+    {
+
+        $appConfig = App::$config;
+        $result = array_merge($appConfig->Query('settings')->AsArray(), [
+            'hosts' => $appConfig->Query('hosts')->AsArray(),
+            'current' => App::$domainKey,
+            'res' => '/'.$appConfig->Query('res')->GetValue()
+        ]);
+        return $this->Finish(200, 'Settings', $result);
+
+    }
     
     
 }

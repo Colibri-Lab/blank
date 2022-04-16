@@ -1,4 +1,12 @@
-main: "cblank.local.bsft.loc"
+domains:
+  manage: 
+    - "cblank.local.bsft.loc"
+    - "localhost"
+  pocket: 
+    - "pocket.local.bsft.loc"
+    - "www.pocket.local.bsft.loc"
+  test:
+    - "test.local.bsft.loc"
 services:
   fs: "fs.local.bsft.loc"
   tpl: "templates.local.bsft.loc"

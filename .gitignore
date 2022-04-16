@@ -7,3 +7,5 @@ composer.lock
 /web/res/tinymce
 /web/res/img/*.svg
 /web/res/upload
+/web/res/fonts
+/web/res/css/01.fonts.scss
