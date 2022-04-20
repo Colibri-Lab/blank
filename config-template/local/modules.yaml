@@ -61,3 +61,13 @@ entries:
       - manage
       - pocket
     config: include(/config/pocket.yaml)
+
+  - name: Commerce
+    entry: \Commerce\Module
+    desc: E-Commerce
+    enabled: true
+    visible: true
+    for: 
+      - manage
+      - commerce
+    config: include(/config/commerce.yaml)

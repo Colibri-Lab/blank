@@ -31,7 +31,9 @@
         "colibri/tools": "@dev",
         "colibri/fileserver-api-client": "@dev",
         "colibri/manage": "@dev",
-        "colibri/sites": "@dev"
+        "colibri/sites": "@dev",
+        "alavai/commerce": "@dev",
+        "alavai/pocket": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -39,6 +41,14 @@
         }
     },
     "repositories": {
+        "commerce": {
+            "type": "path",
+            "url": "/home/colibrilab/commerce"
+        },
+        "pocket": {
+            "type": "path",
+            "url": "/home/colibrilab/pocket"
+        },
         "sites": {
             "type": "path",
             "url": "/home/colibrilab/sites/"

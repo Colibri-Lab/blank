@@ -5,6 +5,9 @@ domains:
   pocket: 
     - "pocket.local.bsft.loc"
     - "www.pocket.local.bsft.loc"
+  commerce: 
+    - "commerce.local.bsft.loc"
+    - "www.commerce.local.bsft.loc"
   test:
     - "test.local.bsft.loc"
 services:
