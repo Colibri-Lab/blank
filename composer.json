@@ -33,7 +33,8 @@
         "colibri/manage": "@dev",
         "colibri/sites": "@dev",
         "alavai/commerce": "@dev",
-        "alavai/pocket": "@dev"
+        "alavai/pocket": "@dev",
+        "colibri/lang": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -41,6 +42,10 @@
         }
     },
     "repositories": {
+        "lang": {
+            "type": "path",
+            "url": "/home/colibrilab/lang"
+        },
         "commerce": {
             "type": "path",
             "url": "/home/colibrilab/commerce"

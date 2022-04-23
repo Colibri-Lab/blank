@@ -71,3 +71,13 @@ entries:
       - manage
       - commerce
     config: include(/config/commerce.yaml)
+
+  - name: Lang
+    entry: \Lang\Module
+    for: 
+      - manage
+      - commerce
+    desc: Lang module
+    enabled: true
+    visible: true
+    config: include(/config/lang.yaml)
