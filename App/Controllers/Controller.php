@@ -68,6 +68,7 @@ class Controller extends WebController
                     $componentName = $matches[1];
                 }
                 $compiledContent = str_replace('\'', '\\\'', str_replace("\n", "", str_replace("\r", "", $args->content)));
+                $compiledContent = str_replace('ComponentName="'.$componentName.'"', '', $compiledContent);
                 $args->content = 'Colibri.UI.AddTemplate(\'' . $componentName . '\', \'' . $compiledContent . '\');' . "\n";
             }
         });
