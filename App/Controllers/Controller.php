@@ -71,6 +71,7 @@ class Controller extends WebController
                 $compiledContent = str_replace('ComponentName="'.$componentName.'"', '', $compiledContent);
                 $args->content = 'Colibri.UI.AddTemplate(\'' . $componentName . '\', \'' . $compiledContent . '\');' . "\n";
             }
+            return true;
         });
 
         // создаем класс View

@@ -4,6 +4,8 @@ use Colibri\App;
 use Colibri\Utils\Cache\Bundle;
 use Colibri\Web\Templates\PhpTemplate;
 
+$langModule = App::$moduleManager->lang;
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -13,13 +15,13 @@ use Colibri\Web\Templates\PhpTemplate;
     
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9">
 
-        <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey.'.assets.css', 'scss', array_merge(
+        <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey.($langModule ? '.'.$langModule->current : '').'.assets.css', 'scss', array_merge(
             [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
             [['path' => App::$webRoot.'res/css/']], 
             App::$moduleManager->GetPaths('.Bundle/')
         ))?>" type="text/css">
 
-        <script type="text/javascript" src="<?=Bundle::Automate(App::$domainKey.'.assets.js', 'js', array_merge(
+        <script type="text/javascript" src="<?=Bundle::Automate(App::$domainKey.($langModule ? '.'.$langModule->current : '').'.assets.js', 'js', array_merge(
             [['path' => App::$appRoot.'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]], 
             App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]), 
         ))?>"></script>
