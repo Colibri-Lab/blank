@@ -34,7 +34,8 @@
         "colibri/sites": "@dev",
         "alavai/commerce": "@dev",
         "alavai/pocket": "@dev",
-        "colibri/lang": "dev-master"
+        "colibri/lang": "dev-master",
+        "yandex/carrier-gate": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -42,6 +43,10 @@
         }
     },
     "repositories": {
+        "carriergate": {
+            "type": "path",
+            "url": "/home/colibrilab/carrier-gate/"
+        },
         "lang": {
             "type": "path",
             "url": "/home/colibrilab/lang"

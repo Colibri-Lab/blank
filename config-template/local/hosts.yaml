@@ -10,6 +10,8 @@ domains:
     - "www.commerce.local.bsft.loc"
   test:
     - "test.local.bsft.loc"
+  carrier-gate:
+    - "*_gate.local.bsft.loc"
 services:
   fs: "fs.local.bsft.loc"
   tpl: "templates.local.bsft.loc"

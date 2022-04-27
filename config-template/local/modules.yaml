@@ -81,3 +81,12 @@ entries:
     enabled: true
     visible: true
     config: include(/config/lang.yaml)
+  - name: CarrierGate
+    entry: \CarrierGate\Module
+    desc: Gate для яндекс доставки
+    for: 
+      - manage
+      - carrier-gate
+    enabled: true
+    visible: true
+    config: include(/config/carrier-gate.yaml)
