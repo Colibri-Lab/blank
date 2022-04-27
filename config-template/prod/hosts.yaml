@@ -1,5 +1,10 @@
-main: "blank.local.bsft.loc"
+domains:
+  manage: 
+    - "backend.carrier-gate.com"
+  carrier-gate:
+    - "*_gate.local.bsft.loc"
 services:
-  fs: "fs.local.bsft.loc"
-  tpl: "templates.local.bsft.loc"
-  print: "printsrv.local.bsft.loc"
+  vault: "vault.colibrilab.ru"
+  fs: "fs.colibrilab.ru"
+  tpl: "templates.colibrilab.ru"
+  print: "printsrv.colibrilab.ru"
