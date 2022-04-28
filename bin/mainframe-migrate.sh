@@ -1,1 +1,0 @@
-/home/colibrilab/mainframe/src/MainFrame/bin/mainframe-migrate.sh
