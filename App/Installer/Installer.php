@@ -15,8 +15,8 @@ class Installer
     public static function PostRootPackageInstall($event)
     {
         
-        $envColibriMode = \getenv('AKTIONDIGITAL_MODE');
-        print_r("Установлен режим в AKTIONDIGITAL_MODE: " . $envColibriMode . "\n");
+        $envColibriMode = \getenv('COLIBRI_MODE');
+        print_r("Установлен режим в COLIBRI_MODE: " . $envColibriMode . "\n");
         if($envColibriMode) {
             $mode = $envColibriMode;
         }
