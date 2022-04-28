@@ -28,79 +28,12 @@
         "colibri/conf-api-client": "dev-master",
         "colibri/comet-api-client": "dev-master"
     },
-    "require-dev": {
-        "colibri/ui": "@dev",
-        "colibri/core": "@dev",
-        "colibri/mainframe": "@dev",
-        "colibri/security": "@dev",
-        "colibri/templates-api-client": "@dev",
-        "colibri/tools": "@dev",
-        "colibri/fileserver-api-client": "@dev",
-        "colibri/manage": "@dev",
-        "colibri/sites": "@dev",
-        "colibri/lang": "@dev",
-        "alavai/commerce": "@dev",
-        "alavai/pocket": "@dev",
-        "yandex/carrier-gate": "@dev"
-    },
     "autoload": {
         "psr-4": {
             "App\\": "App/"
         }
     },
     "repositories": {
-        "carriergate": {
-            "type": "path",
-            "url": "/home/colibrilab/carrier-gate/"
-        },
-        "lang": {
-            "type": "path",
-            "url": "/home/colibrilab/lang"
-        },
-        "commerce": {
-            "type": "path",
-            "url": "/home/colibrilab/commerce"
-        },
-        "pocket": {
-            "type": "path",
-            "url": "/home/colibrilab/pocket"
-        },
-        "sites": {
-            "type": "path",
-            "url": "/home/colibrilab/sites/"
-        },
-        "manage": {
-            "type": "path",
-            "url": "/home/colibrilab/manage/"
-        },
-        "file-server-api-client": {
-            "type": "path",
-            "url": "/home/colibrilab/fileserverapiclient/"
-        },
-        "tools": {
-            "type": "path",
-            "url": "/home/colibrilab/tools/"
-        },
-        "templatesapi": {
-            "type": "path",
-            "url": "/home/colibrilab/templatesapiclient/"
-        },
-        "security": {
-            "type": "path",
-            "url": "/home/colibrilab/security/"
-        },
-        "mainframe": {
-            "type": "path",
-            "url": "/home/colibrilab/mainframe/"
-        },
-        "core": {
-            "type": "path",
-            "url": "/home/colibrilab/core/"
-        },
-        "ui": {
-            "type": "path",
-            "url": "/home/colibrilab/core-ui/"
-        },
         "gitlab.repeatme.online/4": {
             "type": "composer",
             "url": "https://gitlab.repeatme.online/api/v4/group/4/-/packages/composer/packages.json"
