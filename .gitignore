@@ -8,4 +8,5 @@ composer.lock
 /web/res/img/*.svg
 /web/res/upload
 /web/res/fonts
+/web/res/snippets
 /web/res/css/01.fonts.scss
