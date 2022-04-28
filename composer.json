@@ -45,6 +45,10 @@
         "gitlab.repeatme.online/7": {
             "type": "composer",
             "url": "https://gitlab.repeatme.online/api/v4/group/7/-/packages/composer/packages.json"
+        },
+        "gitlab.repeatme.online/35": {
+            "type": "composer",
+            "url": "https://gitlab.repeatme.online/api/v4/group/35/-/packages/composer/packages.json"
         }
     }
 }
