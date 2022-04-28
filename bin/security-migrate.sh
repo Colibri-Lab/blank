@@ -1,1 +1,0 @@
-/home/colibrilab/security/src/Security/bin/security-migrate.sh
