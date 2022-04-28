@@ -1,1 +1,0 @@
-/home/colibrilab/security/src/Security/bin/security-models-generate.sh
