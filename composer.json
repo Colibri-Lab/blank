@@ -26,7 +26,8 @@
         "colibri/core": "dev-master",
         "colibri/ui": "dev-master",
         "colibri/vault-api-client": "dev-master",
-        "colibri/comet-api-client": "dev-master"
+        "colibri/comet-api-client": "dev-master",
+        "colibri/fileserver-api-client": "dev-master"
     },
     "autoload": {
         "psr-4": {
