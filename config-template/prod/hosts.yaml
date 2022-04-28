@@ -1,9 +1,6 @@
 domains:
   manage: 
     - "localhost"
-    - "backend.carrier-gate.com"
-  carrier-gate:
-    - "*_gate.local.bsft.loc"
 services:
   vault: "vault.colibrilab.ru"
   fs: "fs.colibrilab.ru"
