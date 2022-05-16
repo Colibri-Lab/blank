@@ -3,6 +3,9 @@ use App\Modules\Sites\Models\Texts;
 use Colibri\Common\RandomizationHelper;
 use Colibri\IO\FileSystem\Finder;
 use Colibri\IO\FileSystem\File;
+use Colibri\Utils\Logs\ConsoleLogger;
+use Colibri\Utils\Logs\Logger;
+use Colibri\Utils\Logs\FileLogger;
 
 /**
  * Стандартная точка входа для всех web запросов
@@ -40,7 +43,12 @@ $isDev = in_array($mode, [App::ModeDevelopment, App::ModeLocal]);
 try {
 
     if($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
-        Storages::Create()->Migrate();
+        $logger = new ConsoleLogger(Logger::Debug);
+        if(App::$request->get->log && File::Exists(App::$request->get->log)) {
+            $logger = new FileLogger(Logger::Debug, App::$request->get->log);
+        }
+        
+        Storages::Create()->Migrate($logger);
         if(App::$request->server->commandline && App::$request->get->command === 'migrate') {
             exit;
         }
