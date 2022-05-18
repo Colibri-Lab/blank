@@ -48,7 +48,7 @@ try {
             $logger = new FileLogger(Logger::Debug, App::$request->get->log);
         }
         
-        Storages::Create()->Migrate($logger);
+        Storages::Create()->Migrate($logger, $isDev);
         if(App::$request->server->commandline && App::$request->get->command === 'migrate') {
             exit;
         }
