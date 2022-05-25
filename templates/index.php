@@ -15,6 +15,7 @@ $langModule = App::$moduleManager->lang;
 
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
+        <style>body { display: none; }</style>
 
         <?php
             $headerTemplates = App::$moduleManager->GetTemplates('header');
@@ -34,7 +35,7 @@ $langModule = App::$moduleManager->lang;
             }
         ?>
     </body>
-    
+
     <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey.($langModule ? '.'.$langModule->current : '').'.assets.css', 'scss', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => App::$webRoot.'res/css/']], 
