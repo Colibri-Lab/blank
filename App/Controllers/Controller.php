@@ -48,7 +48,7 @@ class Controller extends WebController
             if (in_array('scss', $args->exts)) {
                 try {
                     $scss = new Compiler();
-                    $scss->setOutputStyle(OutputStyle::EXPANDED);
+                    $scss->setOutputStyle(App::$isDev ? OutputStyle::EXPANDED : OutputStyle::COMPRESSED);
                     $args->content = $scss->compileString($args->content)->getCss();
                 } catch (\Throwable $e) {
                     Debug::Out($e->getMessage());
