@@ -22,3 +22,5 @@ logger: include(logger.yaml)
 modules: include(modules.yaml)  
 
 comet: include(comet.yaml)
+
+mobile: include(mobile.yaml)
