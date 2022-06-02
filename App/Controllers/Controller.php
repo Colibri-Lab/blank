@@ -133,7 +133,7 @@ class Controller extends WebController
             'current' => App::$domainKey,
             'res' => '/'.$appConfig->Query('res')->GetValue()
         ]);
-        return $this->Finish(200, 'Settings', $result);
+        return $this->Finish(200, 'Settings', $result, 'utf-8', App::$response->Origin());
 
     }
     
