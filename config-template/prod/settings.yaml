@@ -1,1 +1,7 @@
 phone: "8 999 999-99-99"
+screen:
+  theme: follow-device # follow-device|light|dark
+errors:
+  404: /e404/
+  500: /e500/
+  0: /e500/
