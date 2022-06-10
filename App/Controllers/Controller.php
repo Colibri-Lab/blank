@@ -93,9 +93,27 @@ class Controller extends WebController
             return $this->Finish(200, $html);
         } catch (Exception $e) {
 
-            // если произошла ошибка, то выводим ее
-            $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            $redirectAddress = App::$config->Query('settings.errors.' . $e->getCode(), '')->getValue();
+            if(!$redirectAddress) {
+                $redirectAddress = App::$config->Query('settings.errors.0', '')->getValue();
+            }
+            if($redirectAddress) {
+                $req = new Request(App::$request->address . $redirectAddress, Type::Get);
+                $req->sslVerify = false;
+                $res = $req->Execute();
+                if($res->status == 200) {
+                    $html = $res->data;
+                }
+                else {
+                    $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+                }
+            }
+            else {
+                $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            }
+
             return $this->Finish($e->getCode(), $html);
+            
         }
         
     }
