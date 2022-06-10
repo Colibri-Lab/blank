@@ -90,13 +90,14 @@ class Controller extends WebController
         try {
             // пытаемся сгенерировать страницу
             $html = $view->Render($template,  $args);
+            return $this->Finish(200, $html);
         } catch (Exception $e) {
+
             // если произошла ошибка, то выводим ее
             $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            return $this->Finish($e->getCode(), $html);
         }
-
-        // финишируем контроллер
-        return $this->Finish(200, $html);
+        
     }
 
     public function Comet(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload): object
