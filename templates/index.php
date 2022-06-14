@@ -32,7 +32,7 @@ foreach($footerTemplates as $template) {
 
 ?>
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="<?=$langModule->current?>">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
