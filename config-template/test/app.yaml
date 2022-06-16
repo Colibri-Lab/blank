@@ -1,5 +1,5 @@
 version: "1.0"
-mode: local
+mode: test
 
 # место храненния кэшей, начинается с App::$webRoot
 cache: _cache/
