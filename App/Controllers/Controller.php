@@ -118,24 +118,6 @@ class Controller extends WebController
         
     }
 
-    public function Comet(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload): object
-    {
-
-        // Do nothing
-        /**
-            $comet = App::$config->Query('comet.server')->GetValue()
-            $request = new Request('https://' . $comet . '/api/CometServerApi.js', Type::Get)
-            $request->sslVerify = falsу
-            $request->timeout = 1
-            $response = $request->Execute()
-            
-            App::$response->ContentType('text/javascript', 'utf-8')
-            App::$response->Close(200, $response->data)
-        */
-
-        return $this->Finish(200, '', []);
-    }
-
     /**
      * Настройки
      * @param RequestCollection $get данные GET
@@ -150,6 +132,7 @@ class Controller extends WebController
         $result = array_merge($appConfig->Query('settings')->AsArray(), [
             'hosts' => $appConfig->Query('hosts')->AsArray(),
             'current' => App::$domainKey,
+            'comet' => $appConfig->Query('comet')->AsArray(),
             'res' => '/'.$appConfig->Query('res')->GetValue()
         ]);
         return $this->Finish(200, 'Settings', $result);
