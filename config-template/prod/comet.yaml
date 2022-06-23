@@ -1,3 +1,2 @@
-server: comet01.bsft.loc
-db: comet01.bsft.loc
-pwd: 123456
+host: 127.0.0.1
+port: 9000
