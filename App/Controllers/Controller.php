@@ -112,7 +112,12 @@ class Controller extends WebController
                 $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
             }
 
-            return $this->Finish($e->getCode(), $html);
+            $code = $e->getCode();
+            if(!$code) {
+                $code = 500;
+            }
+
+            return $this->Finish($code, $html);
             
         }
         
