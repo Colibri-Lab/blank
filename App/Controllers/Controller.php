@@ -114,7 +114,7 @@ class Controller extends WebController
 
             $code = $e->getCode();
             if(!$code) {
-                $code = 500;
+                $code = 404;
             }
 
             return $this->Finish($code, $html);
