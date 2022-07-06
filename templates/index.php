@@ -30,6 +30,11 @@ foreach($footerTemplates as $template) {
     $footers[] = $template->Render($args);
 }
 
+$themeFile = null;
+if(App::$moduleManager->tools) {
+    $themeFile = App::$moduleManager->tools->Theme(App::$domainKey);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?=($langModule ? $langModule->current : '')?>">
@@ -45,6 +50,7 @@ foreach($footerTemplates as $template) {
     <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').'.assets.css', 'scss', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => App::$webRoot.'res/css/']], 
+        [['path' => $themeFile]], 
         App::$moduleManager->GetPaths('.Bundle/'),
         App::$moduleManager->GetPaths('templates/')
     ))?>" type="text/css" />
