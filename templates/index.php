@@ -31,8 +31,10 @@ foreach($footerTemplates as $template) {
 }
 
 $themeFile = null;
+$themeKey = '';
 if(App::$moduleManager->tools) {
     $themeFile = App::$moduleManager->tools->Theme(App::$domainKey);
+    $themeKey = md5($themeFile);
 }
 
 ?>
@@ -47,7 +49,7 @@ if(App::$moduleManager->tools) {
     <body>
         <?=implode('', $bodies ?? [])?>
     </body>
-    <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').'.assets.css', 'scss', array_merge(
+    <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').($themeKey ? '.'.$themeKey : '').'.assets.css', 'scss', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => $themeFile]], 
         [['path' => App::$webRoot.'res/css/']], 
