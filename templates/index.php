@@ -49,8 +49,8 @@ if(App::$moduleManager->tools) {
     </body>
     <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').'.assets.css', 'scss', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
-        [['path' => App::$webRoot.'res/css/']], 
         [['path' => $themeFile]], 
+        [['path' => App::$webRoot.'res/css/']], 
         App::$moduleManager->GetPaths('.Bundle/'),
         App::$moduleManager->GetPaths('templates/')
     ))?>" type="text/css" />
