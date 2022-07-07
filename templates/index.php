@@ -43,7 +43,7 @@ if(App::$moduleManager->tools) {
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
-        <style>body { display: none; }</style>
+        <?php /* ?><style>body { display: none; }</style><?php */ ?>
         <?=implode('', $headers ?? [])?>
     </head>
     <body>
