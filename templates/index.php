@@ -53,6 +53,7 @@ if(App::$moduleManager->tools) {
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => $themeFile]], 
         [['path' => App::$webRoot.'res/css/']], 
+        App::$moduleManager->GetPaths('web/res/css/'),
         App::$moduleManager->GetPaths('.Bundle/'),
         App::$moduleManager->GetPaths('templates/')
     ))?>" type="text/css" />
