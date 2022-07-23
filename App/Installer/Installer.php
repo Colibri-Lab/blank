@@ -16,7 +16,9 @@ class Installer
     {
         
         $envColibriMode = \getenv('COLIBRI_MODE');
+        $envColibriWebRoot = \getenv('COLIBRI_WEBROOT');
         print_r("Установлен режим в COLIBRI_MODE: " . $envColibriMode . "\n");
+        print_r("Установлена папка: " . $envColibriWebRoot . "\n");
         if($envColibriMode) {
             $mode = $envColibriMode;
         }
@@ -29,6 +31,16 @@ class Installer
         }
         else {
             $mode = 'prod';
+        }
+
+        if($envColibriWebRoot) {
+            $webRoot = $envColibriWebRoot;
+        }
+        else if($event->isDevMode()) {
+            $webRoot = $event->getIO()->ask('Введите папку для точки входа web по умолчанию: ', 'web');
+        }
+        else {
+            $webRoot = 'web';
         }
 
         if($mode != 'local') {
@@ -47,7 +59,13 @@ class Installer
                 }
             }
         }
-        shell_exec('chmod -R 777 ./web/_cache');    
+
+        // переименовываем папку
+        if($webRoot !== 'web') {
+            shell_exec('rm ./web ./'.$webRoot);
+        }
+        // ставим права на кэш
+        shell_exec('chmod -R 777 ./'.$webRoot.'/_cache');    
         
     }
 
