@@ -62,7 +62,7 @@ class Installer
 
         // переименовываем папку
         if($webRoot !== 'web') {
-            shell_exec('rm ./web ./'.$webRoot);
+            shell_exec('mv ./web ./'.$webRoot);
         }
         // ставим права на кэш
         shell_exec('chmod -R 777 ./'.$webRoot.'/_cache');    
