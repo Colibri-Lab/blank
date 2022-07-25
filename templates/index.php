@@ -37,7 +37,6 @@ if(App::$moduleManager->tools) {
     $themeKey = md5($themeFile);
 }
 
-$web = str_replace(App::$appRoot, '', App::$webRoot);
 $permanent = App::$config->Query('permanent', 'res/')->GetValue();
 
 ?>
@@ -56,7 +55,7 @@ $permanent = App::$config->Query('permanent', 'res/')->GetValue();
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => $themeFile]], 
         [['path' => App::$webRoot.$permanent.'css/']], 
-        App::$moduleManager->GetPaths($web.'res/css/'),
+        App::$moduleManager->GetPaths('web/res/css/'),
         App::$moduleManager->GetPaths('.Bundle/'),
         App::$moduleManager->GetPaths('templates/')
     ))?>" type="text/css" />
