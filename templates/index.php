@@ -37,8 +37,6 @@ if(App::$moduleManager->tools) {
     $themeKey = md5($themeFile);
 }
 
-$permanent = App::$config->Query('permanent', 'res/')->GetValue();
-
 ?>
 <!DOCTYPE html>
 <html lang="<?=($langModule ? $langModule->current : '')?>">
@@ -54,7 +52,7 @@ $permanent = App::$config->Query('permanent', 'res/')->GetValue();
     <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').($themeKey ? '.'.$themeKey : '').'.assets.css', 'scss', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/']], 
         [['path' => $themeFile]], 
-        [['path' => App::$webRoot.$permanent.'css/']], 
+        [['path' => App::$webRoot.'res/css/']], 
         App::$moduleManager->GetPaths('web/res/css/'),
         App::$moduleManager->GetPaths('.Bundle/'),
         App::$moduleManager->GetPaths('templates/')
