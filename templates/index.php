@@ -38,7 +38,7 @@ if(App::$moduleManager->tools) {
 }
 
 $web = str_replace(App::$appRoot, '', App::$webRoot);
-$permanent = App::$config->Query('permanent')->GetValue();
+$permanent = App::$config->Query('permanent', 'res/')->GetValue();
 
 ?>
 <!DOCTYPE html>
