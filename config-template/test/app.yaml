@@ -3,6 +3,7 @@ mode: test
 
 # место храненния кэшей, начинается с App::$webRoot
 cache: _cache/
+permanent: res/
 res: res/upload/
 memcache: include(memcache.yaml)
 
