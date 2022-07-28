@@ -99,6 +99,7 @@ class Controller extends WebController
             }
             if($redirectAddress) {
                 $req = new Request(App::$request->address . $redirectAddress, Type::Get);
+                $req->timeout = 3;
                 $req->sslVerify = false;
                 $res = $req->Execute();
                 if($res->status == 200) {

@@ -40,6 +40,7 @@ DateTimeField::$defaultLocale = 'RU_ru';
 $mode = App::$config->Query('mode')->GetValue();
 $isDev = in_array($mode, [App::ModeDevelopment, App::ModeLocal]);
 
+
 try {
 
     if($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
