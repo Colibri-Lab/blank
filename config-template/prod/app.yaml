@@ -3,6 +3,7 @@ mode: prod
 
 # место храненния кэшей, начинается с App::$webRoot
 cache: _cache/
+runtime: runtime/
 res: files/
 memcache: include(memcache.yaml)
 monitoring:
