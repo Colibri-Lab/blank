@@ -27,3 +27,5 @@ modules: include(modules.yaml)
 comet: include(comet.yaml)
 
 mobile: include(mobile.yaml)
+
+minifier: include(minifier.yaml)

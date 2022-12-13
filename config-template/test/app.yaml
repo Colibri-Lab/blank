@@ -25,3 +25,5 @@ logger: include(logger.yaml)
 modules: include(modules.yaml)  
 
 comet: include(comet.yaml)
+
+minifier: include(minifier.yaml)

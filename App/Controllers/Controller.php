@@ -18,12 +18,10 @@ use Colibri\Web\View;
 use Exception;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
-use Colibri\Utils\Cache\Bundle;
 use VaultApiClient\Client;
 use Colibri\Web\RequestCollection;
 use Colibri\Web\PayloadCopy;
-use Colibri\Data\Storages\Storages;
-use ReflectionClass;
+use Colibri\Utils\Minifiers\Javascript as Minifier;
 
 /**
  * Контроллер по умолчанию
@@ -55,7 +53,7 @@ class Controller extends WebController
                 }
             } elseif (in_array('js', $args->exts) && !App::$isDev) {
                 try {
-                    $args->content = \JShrink\Minifier::minify($args->content, array('flaggedComments' => false));
+                    $args->content = Minifier::Minify($args->content);
                 }
                 catch(\Throwable $e) {
                     Debug::Out($e->getMessage());
