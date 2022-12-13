@@ -53,6 +53,13 @@ class Controller extends WebController
                 } catch (\Throwable $e) {
                     Debug::Out($e->getMessage());
                 }
+            } elseif (in_array('js', $args->exts) && !App::$isDev) {
+                try {
+                    $args->content = \JShrink\Minifier::minify($args->content, array('flaggedComments' => false));
+                }
+                catch(\Throwable $e) {
+                    Debug::Out($e->getMessage());
+                }
             }
             return true;
         });
