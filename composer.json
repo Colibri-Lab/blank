@@ -22,6 +22,7 @@
     "require": {
         "php": ">=8.0.0",
         "scssphp/scssphp": "dev-master",
+        "tedivm/jshrink": "dev-master",
         "composer/composer": "dev-main",
         "colibri/core": "dev-master",
         "colibri/ui": "dev-master",
