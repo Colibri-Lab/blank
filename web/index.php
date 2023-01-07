@@ -1,11 +1,4 @@
 <?php
-use App\Modules\Sites\Models\Texts;
-use Colibri\Common\RandomizationHelper;
-use Colibri\IO\FileSystem\Finder;
-use Colibri\IO\FileSystem\File;
-use Colibri\Utils\Logs\ConsoleLogger;
-use Colibri\Utils\Logs\Logger;
-use Colibri\Utils\Logs\FileLogger;
 
 /**
  * Стандартная точка входа для всех web запросов
@@ -20,20 +13,18 @@ use Colibri\Utils\Logs\FileLogger;
 
 set_time_limit(0);
 
-require __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 use Colibri\App;
-use Colibri\Data\Storages\Models\DataTable;
 use Colibri\Data\Storages\Models\Generator;
-use Colibri\Data\Storages\Storage;
 use Colibri\Data\Storages\Storages;
 use Colibri\Utils\Debug;
 use Colibri\Web\Server as WebServer;
-
+use Colibri\IO\FileSystem\File;
+use Colibri\Utils\Logs\ConsoleLogger;
+use Colibri\Utils\Logs\Logger;
+use Colibri\Utils\Logs\FileLogger;
 use Colibri\Data\Storages\Fields\DateTimeField;
-use App\Modules\ReportsGeneration\Reports\Statistics\Generator\Report;
-use App\Modules\ReportsGeneration\Reports\Statistics\Generator\Validation\Condition;
-use App\Modules\ReportsGeneration\Reports\Statistics\Generator\Validation\ConditionItem;
 
 DateTimeField::$defaultLocale = 'RU_ru';
 
@@ -43,19 +34,19 @@ $isDev = in_array($mode, [App::ModeDevelopment, App::ModeLocal]);
 
 try {
 
-    if($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
+    if ($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
         $logger = new ConsoleLogger(Logger::Debug);
-        if(App::$request->get->log && File::Exists(App::$request->get->log)) {
+        if (App::$request->get->log && File::Exists(App::$request->get->log)) {
             $logger = new FileLogger(Logger::Debug, App::$request->get->log);
         }
-        
+
         Storages::Create()->Migrate($logger, $isDev);
-        if(App::$request->server->commandline && App::$request->get->command === 'migrate') {
+        if (App::$request->server->commandline && App::$request->get->command === 'migrate') {
             exit;
         }
     }
 
-    if($isDev && (App::$request->server->commandline && App::$request->get->command === 'models-generate')) {
+    if ($isDev && (App::$request->server->commandline && App::$request->get->command === 'models-generate')) {
         $storage = Storages::Create()->Load(App::$request->get->storage);
         Generator::GenerateModelClasses($storage);
         Generator::GenerateModelTemplates($storage);
@@ -63,12 +54,10 @@ try {
     }
 
     $command = App::$request->server->request_uri;
-    
+
     $server = new WebServer();
     $server->Run($command, '/');
 
-}
-catch(\Throwable $e) {
+} catch (\Throwable $e) {
     Debug::Out($e->getMessage(), $e->getLine(), $e->getFile());
 }
-
