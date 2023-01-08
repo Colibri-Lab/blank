@@ -29,10 +29,6 @@ use Colibri\Data\Storages\Fields\DateTimeField;
 
 DateTimeField::$defaultLocale = 'RU_ru';
 
-$mode = App::$config->Query('mode')->GetValue();
-$isDev = in_array($mode, [App::ModeDevelopment, App::ModeLocal]);
-
-
 try {
     
     $log = App::$request->get->log && App::$request->get->log !== 'no';
@@ -43,14 +39,14 @@ try {
         $logger = new ConsoleLogger(Logger::Debug);
     }
 
-    if ($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
-        Storages::Create()->Migrate($logger, $isDev);
+    if (App::$isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
+        Storages::Create()->Migrate($logger, App::$isDev);
         if (App::$request->server->commandline && App::$request->get->command === 'migrate') {
             exit;
         }
     }
 
-    if ($isDev && (App::$request->server->commandline && App::$request->get->command === 'models-generate')) {
+    if (App::$isDev && (App::$request->server->commandline && App::$request->get->command === 'models-generate')) {
         $logger->debug('Creating models for storage ' . App::$request->get->storage);
         $storage = Storages::Create()->Load(App::$request->get->storage);
         Generator::GenerateModelClasses($storage);
