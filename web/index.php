@@ -1,4 +1,5 @@
 <?php
+use Colibri\Utils\Logs\MemoryLogger;
 
 /**
  * Стандартная точка входа для всех web запросов
@@ -33,13 +34,16 @@ $isDev = in_array($mode, [App::ModeDevelopment, App::ModeLocal]);
 
 
 try {
+    
+    $log = App::$request->get->log && App::$request->get->log !== 'no';
+    $logger = new MemoryLogger();
+    if ($log && File::Exists(App::$request->get->log)) {
+        $logger = new FileLogger(Logger::Debug, App::$request->get->log);
+    } elseif ($log) {
+        $logger = new ConsoleLogger(Logger::Debug);
+    }
 
     if ($isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
-        $logger = new ConsoleLogger(Logger::Debug);
-        if (App::$request->get->log && File::Exists(App::$request->get->log)) {
-            $logger = new FileLogger(Logger::Debug, App::$request->get->log);
-        }
-
         Storages::Create()->Migrate($logger, $isDev);
         if (App::$request->server->commandline && App::$request->get->command === 'migrate') {
             exit;
