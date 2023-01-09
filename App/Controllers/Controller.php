@@ -63,8 +63,8 @@ class Controller extends WebController
             }
 
             $compiledContent = str_replace(
-                ["\n", '\'', "\r", 'ComponentName="'.$componentName.'"'], 
-                ["' + \n'", '\\\'', "", 'namespace="'.$componentName.'"'], 
+                ['\'', "\n", "\r", 'ComponentName="'.$componentName.'"'], 
+                ['\\\'', "' + \n'", "", 'namespace="'.$componentName.'"'], 
                 $args->content
             );
 
