@@ -20,6 +20,7 @@ class Installer
         $envColibriWebRoot = \getenv('COLIBRI_WEBROOT');
         print_r("Установлен режим в COLIBRI_MODE: " . $envColibriMode . "\n");
         print_r("Установлена папка: " . $envColibriWebRoot . "\n");
+        $mode = 'prod';
         if ($envColibriMode) {
             $mode = $envColibriMode;
         } elseif ($event->isDevMode()) {
@@ -28,16 +29,13 @@ class Installer
             while (!in_array($mode, $modes)) {
                 $mode = $event->getIO()->ask('Выберите режим (local|test|prod) prod по умолчанию: ', 'prod');
             }
-        } else {
-            $mode = 'prod';
         }
 
+        $webRoot = 'web';
         if ($envColibriWebRoot) {
             $webRoot = $envColibriWebRoot;
         } elseif ($event->isDevMode()) {
             $webRoot = $event->getIO()->ask('Введите папку для точки входа web по умолчанию: ', 'web');
-        } else {
-            $webRoot = 'web';
         }
 
         if ($mode != 'local') {
@@ -47,10 +45,7 @@ class Installer
             $path = './config-template/local/';
             $files = scandir($path);
             foreach ($files as $file) {
-                if ($file === '.' || $file === '..') {
-                    continue;
-                }
-                if (is_file($path . $file)) {
+                if ($file !== '.' && $file !== '..' && is_file($path . $file)) {
                     shell_exec('ln -s ' . realpath($path . $file) . ' ./config/' . $file);
                 }
             }
@@ -88,6 +83,7 @@ class Installer
                 $class = $classNamespace . 'Installer';
 
                 print_r('Запускаем инсталлер ' . $classNamespace . "::PostPackageInstall\n");
+                /** @var object $class */
                 $class::PostPackageInstall($event);
 
             }

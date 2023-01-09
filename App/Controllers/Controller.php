@@ -31,6 +31,49 @@ use Colibri\Utils\Minifiers\Javascript as Minifier;
 class Controller extends WebController
 {
 
+    private function _initDefaultBundleHandlers() 
+    {
+        // Обработка scss
+        App::$instance->HandleEvent(EventsContainer::BundleComplete, function ($event, $args) {
+            try {
+                if (in_array('scss', $args->exts)) {
+                    $scss = new Compiler();
+                    $scss->setOutputStyle(App::$isDev ? OutputStyle::EXPANDED : OutputStyle::COMPRESSED);
+                    $args->content = $scss->compileString($args->content)->getCss();
+                } elseif (in_array('js', $args->exts) && !App::$isDev) {
+                    $args->content = Minifier::Minify($args->content);
+                }
+            } catch (\Throwable $e) {
+                App::$log->emergency($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
+            }
+            return true;
+        });
+
+        // если есть бандлер то нужно запустить генерация javascript из шаблонов
+        App::$instance->HandleEvent(EventsContainer::BundleFile, function ($event, $args) {
+            $file = new File($args->file);
+            if ($file->extension !== 'html') {
+                return true;
+            }
+            
+            // компилируем html в javascript
+            $componentName = $file->filename;
+            if( preg_match('/ComponentName="([^"]*)"/i', $args->content, $matches) > 0) {
+                $componentName = $matches[1];
+            }
+
+            $compiledContent = str_replace(
+                ["\n", '\'', "\r", 'ComponentName="'.$componentName.'"'], 
+                ["' + \n'", '\\\'', "", 'namespace="'.$componentName.'"'], 
+                $args->content
+            );
+
+            $args->content = 'Colibri.UI.AddTemplate(\'' . $componentName . '\', ' . "\n" . '\'' . $compiledContent . '\');' . "\n";
+            
+            return true;
+        });
+    }
+
     /**
      * Метод по умолчанию
      * @param mixed $get
@@ -41,43 +84,7 @@ class Controller extends WebController
     public function Index(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload): object
     {
 
-        // Обработка scss
-        App::$instance->HandleEvent(EventsContainer::BundleComplete, function ($event, $args) {
-            if (in_array('scss', $args->exts)) {
-                try {
-                    $scss = new Compiler();
-                    $scss->setOutputStyle(App::$isDev ? OutputStyle::EXPANDED : OutputStyle::COMPRESSED);
-                    $args->content = $scss->compileString($args->content)->getCss();
-                } catch (\Throwable $e) {
-                    Debug::Out($e->getMessage());
-                }
-            } elseif (in_array('js', $args->exts) && !App::$isDev) {
-                try {
-                    $args->content = Minifier::Minify($args->content);
-                }
-                catch(\Throwable $e) {
-                    Debug::Out($e->getMessage());
-                }
-            }
-            return true;
-        });
-
-        // если есть бандлер то нужно запустить генерация javascript из шаблонов
-        App::$instance->HandleEvent(EventsContainer::BundleFile, function ($event, $args) {
-            $file = new File($args->file);
-            if ($file->extension == 'html') {
-                // компилируем html в javascript
-                $componentName = $file->filename;
-                $res = preg_match('/ComponentName="([^"]*)"/i', $args->content, $matches);
-                if($res > 0) {
-                    $componentName = $matches[1];
-                }
-                $compiledContent = str_replace('\'', '\\\'', str_replace("\n", "", str_replace("\r", "", $args->content)));
-                $compiledContent = str_replace('ComponentName="'.$componentName.'"', 'namespace="'.$componentName.'"', $compiledContent);
-                $args->content = 'Colibri.UI.AddTemplate(\'' . $componentName . '\', \'' . $compiledContent . '\');' . "\n";
-            }
-            return true;
-        });
+        $this->_initDefaultBundleHandlers();
 
         // создаем класс View
         $view = View::Create();
@@ -85,47 +92,27 @@ class Controller extends WebController
         // создаем обьект шаблона
         $template = PhpTemplate::Create(App::$appRoot . '/templates/index');
 
-        // собираем аргументы
-        $args = new ExtendedObject([
-            'get' => $get,
-            'post' => $post,
-            'payload' => $payload
-        ]);
-
         try {
             // пытаемся сгенерировать страницу
-            $html = $view->Render($template,  $args);
-            return $this->Finish(200, $html);
-        } catch (Exception $e) {
+            $html = $view->Render($template,  new ExtendedObject([
+                'get' => $get,
+                'post' => $post,
+                'payload' => $payload
+            ]));
+            $code = 200;
+        } catch (\Throwable $e) {
 
-            $redirectAddress = App::$config->Query('settings.errors.' . $e->getCode(), '')->getValue();
-            if(!$redirectAddress) {
-                $redirectAddress = App::$config->Query('settings.errors.0', '')->getValue();
-            }
-            if($redirectAddress) {
-                $req = new Request(App::$request->address . $redirectAddress, Type::Get);
-                $req->timeout = 3;
-                $req->sslVerify = false;
-                $res = $req->Execute();
-                if($res->status == 200) {
-                    $html = $res->data;
-                }
-                else {
-                    $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
-                }
-            }
-            else {
-                $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            $code = $e->getCode() ?: 404;
+
+            if( ($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '' ) {
+                $res = Request::Get(App::$request->address . $redirectAddress, 1, false);
+                $html = $res->status === 200 ? $res->data : $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
             }
 
-            $code = $e->getCode();
-            if(!$code) {
-                $code = 404;
-            }
-
-            return $this->Finish($code, $html);
-            
         }
+
+        return $this->Finish($code, $html);
         
     }
 
@@ -164,6 +151,7 @@ class Controller extends WebController
             $fi = new Finder();
             $files =  $fi->Files(App::$appRoot.'config/');
             foreach($files as $file) {
+                /** @var File $file */
                 Client::Vault($file->path);
             }
         }
