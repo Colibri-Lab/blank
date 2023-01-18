@@ -227,7 +227,7 @@ class Controller extends WebController
 
                     Bundle::Automate(
                         App::$domainKey,
-                        $langKey . ($themeKey ? '.' . $themeKey : '') . '.assets.css',
+                        ($langKey . '.') . ($themeKey ? $themeKey . '.' : '') . 'assets.css',
                         'scss',
                         array_merge(
                             [['path' => App::$appRoot . 'vendor/colibri/ui/src/']],
@@ -240,7 +240,7 @@ class Controller extends WebController
                     );
                     Bundle::Automate(
                         App::$domainKey, 
-                        $langKey . '.assets.js',
+                        ($langKey . '.') . 'assets.js',
                         'js',
                         array_merge(
                             [['path' => App::$appRoot . 'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]],
