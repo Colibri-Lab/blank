@@ -9,13 +9,11 @@ use Colibri\Events\EventsContainer;
 use Colibri\IO\FileSystem\File;
 use Colibri\IO\FileSystem\Finder;
 use Colibri\IO\Request\Request;
-use Colibri\IO\Request\Type;
-use Colibri\Utils\Debug;
+use Colibri\Utils\Cache\Bundle;
 use Colibri\Utils\ExtendedObject;
 use Colibri\Web\Controller as WebController;
 use Colibri\Web\Templates\PhpTemplate;
 use Colibri\Web\View;
-use Exception;
 use ScssPhp\ScssPhp\Compiler;
 use ScssPhp\ScssPhp\OutputStyle;
 use VaultApiClient\Client;
@@ -24,14 +22,18 @@ use Colibri\Web\PayloadCopy;
 use Colibri\Utils\Minifiers\Javascript as Minifier;
 
 /**
- * Контроллер по умолчанию
+ * Default controller
  * @author Vahan P. Grigoryan
  * @package App\Controllers
  */
 class Controller extends WebController
 {
 
-    private function _initDefaultBundleHandlers() 
+    /**
+     * Initialized the bundle handlers
+     * @return void
+     */
+    private function _initDefaultBundleHandlers()
     {
         // Обработка scss
         App::$instance->HandleEvent(EventsContainer::BundleComplete, function ($event, $args) {
@@ -55,27 +57,27 @@ class Controller extends WebController
             if ($file->extension !== 'html') {
                 return true;
             }
-            
+
             // компилируем html в javascript
             $componentName = $file->filename;
-            if( preg_match('/ComponentName="([^"]*)"/i', $args->content, $matches) > 0) {
+            if (preg_match('/ComponentName="([^"]*)"/i', $args->content, $matches) > 0) {
                 $componentName = $matches[1];
             }
 
             $compiledContent = str_replace(
-                ['\'', "\n", "\r", 'ComponentName="'.$componentName.'"'], 
-                ['\\\'', "' + \n'", "", 'namespace="'.$componentName.'"'], 
+                ['\'', "\n", "\r", 'ComponentName="' . $componentName . '"'],
+                ['\\\'', "' + \n'", "", 'namespace="' . $componentName . '"'],
                 $args->content
             );
 
             $args->content = 'Colibri.UI.AddTemplate(\'' . $componentName . '\', ' . "\n" . '\'' . $compiledContent . '\');' . "\n";
-            
+
             return true;
         });
     }
 
     /**
-     * Метод по умолчанию
+     * Default action
      * @param mixed $get
      * @param mixed $post
      * @param mixed $payload
@@ -94,7 +96,7 @@ class Controller extends WebController
 
         try {
             // пытаемся сгенерировать страницу
-            $html = $view->Render($template,  new ExtendedObject([
+            $html = $view->Render($template, new ExtendedObject([
                 'get' => $get,
                 'post' => $post,
                 'payload' => $payload
@@ -105,7 +107,7 @@ class Controller extends WebController
             $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
             $code = $e->getCode() ?: 404;
 
-            if( ($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '' ) {
+            if (($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '') {
                 $res = Request::Get(App::$request->address . $redirectAddress, 1, false);
                 $html = $res->status === 200 ? $res->data : $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
             }
@@ -113,14 +115,14 @@ class Controller extends WebController
         }
 
         return $this->Finish($code, $html);
-        
+
     }
 
     /**
-     * Настройки
-     * @param RequestCollection $get данные GET
-     * @param RequestCollection $post данные POST
-     * @param mixed $payload данные payload обьекта переданного через POST/PUT
+     * Returns the application settings
+     * @param RequestCollection $get data from get request
+     * @param RequestCollection $post a request post data
+     * @param mixed $payload payload object in POST/PUT request
      * @return object
      */
     public function Settings(RequestCollection $get, RequestCollection $post, ?PayloadCopy $payload = null): object
@@ -131,14 +133,14 @@ class Controller extends WebController
             'hosts' => $appConfig->Query('hosts')->AsArray(),
             'current' => App::$domainKey,
             'comet' => $appConfig->Query('comet')->AsArray(),
-            'res' => '/'.$appConfig->Query('res')->GetValue()
+            'res' => '/' . $appConfig->Query('res')->GetValue()
         ]);
         return $this->Finish(200, 'Settings', $result);
 
     }
-    
+
     /**
-     * Метод по умолчанию
+     * Download keys/passwords from colibri vault
      * @param mixed $get
      * @param mixed $post
      * @param mixed $payload
@@ -147,21 +149,118 @@ class Controller extends WebController
     public function Vault($get, $post, $payload)
     {
 
-        if(App::$request->server->commandline) {
+        if (App::$request->server->commandline) {
             $fi = new Finder();
-            $files =  $fi->Files(App::$appRoot.'config/');
-            foreach($files as $file) {
+            $files = $fi->Files(App::$appRoot . 'config/');
+            foreach ($files as $file) {
                 /** @var File $file */
                 Client::Vault($file->path);
             }
-        }
-        else {
+        } else {
             throw new AppException('This command is allowed only in commandline mode');
         }
 
 
         return $this->Finish(200, 'ok', []);
-        
+
     }
-    
+
+    /**
+     * Bundles the scripts and styles
+     * @param mixed $get
+     * @param mixed $post
+     * @param mixed $payload
+     * @return \stdClass
+     */
+    public function Bundle($get, $post, $payload)
+    {
+
+        if (App::$request->server->commandline) {
+
+            $this->_initDefaultBundleHandlers();
+
+            /** @var \App\Modules\Lang\Module */
+            $langModule = App::$moduleManager->lang;
+
+            $themeFile = null;
+            $themeKey = '';
+
+            if(App::$moduleManager->tools) {
+                $themeFile = App::$moduleManager->tools->Theme(App::$domainKey);
+                $themeKey = md5($themeFile);
+            }
+
+            if (!$langModule) {
+                // языки не подключены
+                Bundle::Automate(
+                    App::$domainKey,
+                    ($themeKey ? '.' . $themeKey : '') . '.assets.css',
+                    'scss',
+                    array_merge(
+                        [['path' => App::$appRoot . 'vendor/colibri/ui/src/']],
+                        [['path' => $themeFile]],
+                        [['path' => App::$webRoot . 'res/css/']],
+                        App::$moduleManager->GetPaths('web/res/css/'),
+                        App::$moduleManager->GetPaths('.Bundle/'),
+                        App::$moduleManager->GetPaths('templates/')
+                    )
+                );
+                Bundle::Automate(
+                    App::$domainKey, 
+                    '.assets.js',
+                    'js',
+                    array_merge(
+                        [['path' => App::$appRoot . 'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]],
+                        App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]),
+                        App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]),
+                    )
+                );
+            }
+            else {
+                // языки подключены
+
+                $oldLangKey = $langModule->current;
+                $langs = $langModule->Langs();
+                foreach ($langs as $langKey => $langData) {
+
+                    $langModule->InitCurrent($langKey);
+
+                    Bundle::Automate(
+                        App::$domainKey,
+                        $langKey . ($themeKey ? '.' . $themeKey : '') . '.assets.css',
+                        'scss',
+                        array_merge(
+                            [['path' => App::$appRoot . 'vendor/colibri/ui/src/']],
+                            [['path' => $themeFile]],
+                            [['path' => App::$webRoot . 'res/css/']],
+                            App::$moduleManager->GetPaths('web/res/css/'),
+                            App::$moduleManager->GetPaths('.Bundle/'),
+                            App::$moduleManager->GetPaths('templates/')
+                        )
+                    );
+                    Bundle::Automate(
+                        App::$domainKey, 
+                        $langKey . '.assets.js',
+                        'js',
+                        array_merge(
+                            [['path' => App::$appRoot . 'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]],
+                            App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]),
+                            App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]),
+                        )
+                    );
+
+                }
+                $langModule->InitCurrent($oldLangKey);
+            }
+
+
+        } else {
+            throw new AppException('This command is allowed only in commandline mode');
+        }
+
+
+        return $this->Finish(200, 'ok', []);
+
+    }
+
 }
