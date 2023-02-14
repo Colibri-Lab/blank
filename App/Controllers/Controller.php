@@ -179,14 +179,13 @@ class Controller extends WebController
 
             $this->_initDefaultBundleHandlers();
 
-            /** @var \App\Modules\Lang\Module */
-            $langModule = App::$moduleManager->lang;
+            $langModule = App::$moduleManager->Get('lang');
 
             $themeFile = null;
             $themeKey = '';
 
-            if(App::$moduleManager->tools) {
-                $themeFile = App::$moduleManager->tools->Theme(App::$domainKey);
+            if(App::$moduleManager->Get('tools')) {
+                $themeFile = App::$moduleManager->Get('tools')->Theme(App::$domainKey);
                 $themeKey = md5($themeFile);
             }
 

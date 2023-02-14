@@ -7,7 +7,7 @@ use App\Modules\Sites\Models\Domain;
 use App\Modules\Sites\Models\Domains;
 use Colibri\AppException;
 
-$langModule = App::$moduleManager->lang;
+$langModule = App::$moduleManager->Get('lang');
 
 $headers = [];
 $headerTemplates = App::$moduleManager->GetTemplates('header');
@@ -32,8 +32,8 @@ foreach($footerTemplates as $template) {
 
 $themeFile = null;
 $themeKey = '';
-if(App::$moduleManager->tools) {
-    $themeFile = App::$moduleManager->tools->Theme(App::$domainKey);
+if(App::$moduleManager->Get('tools')) {
+    $themeFile = App::$moduleManager->Get('tools')->Theme(App::$domainKey);
     $themeKey = md5($themeFile);
 }
 
