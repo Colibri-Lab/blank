@@ -107,10 +107,10 @@ class Controller extends WebController
             $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
             $code = $e->getCode() ?: 404;
 
-            if (($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '') {
-                $res = Request::Get(App::$request->address . $redirectAddress, 1, false);
-                $html = $res->status === 200 ? $res->data : $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
-            }
+            // if (($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '') {
+            //     $res = Request::Get(App::$request->address . $redirectAddress, 1, false);
+            //     $html = $res->status === 200 ? $res->data : $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            // }
 
         }
 
