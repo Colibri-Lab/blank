@@ -103,15 +103,12 @@ class Controller extends WebController
             ]));
             $code = 200;
         } catch (\Throwable $e) {
-
-            $html = $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
+            $message = $e->getMessage();
             $code = $e->getCode() ?: 404;
-
-            // if (($redirectAddress = App::$config->Query(['settings.errors.' . $e->getCode(), 'settings.errors.0'], '')->getValue()) !== '') {
-            //     $res = Request::Get(App::$request->address . $redirectAddress, 1, false);
-            //     $html = $res->status === 200 ? $res->data : $e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine();
-            // }
-
+            $file = $e->getFile();
+            $line = $e->getLine();
+            $trace = $e->getTraceAsString();
+            $html = require('error.php');
         }
 
         return $this->Finish($code, $html);
