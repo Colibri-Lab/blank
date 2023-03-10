@@ -41,7 +41,7 @@ if(App::$moduleManager->Get('tools')) {
 <!DOCTYPE html>
 <html lang="<?=($langModule ? $langModule->current : '')?>">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" />
         <?php /* ?><style>body { display: none; }</style><?php */ ?>
         <?=implode('', $headers ?? [])?>
