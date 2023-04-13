@@ -79,8 +79,10 @@ class Installer
             if (file_exists('./vendor/' . $targetDir . '/' . $path . 'Installer.php')) {
                 print_r('Пост установка пакета ' . $classNamespace . "\n");
 
-                require_once './vendor/' . $targetDir . '/' . $path . 'Installer.php';
                 $class = $classNamespace . 'Installer';
+                if(!class_exists($class)) {
+                    require_once './vendor/' . $targetDir . '/' . $path . 'Installer.php';
+                }
 
                 print_r('Запускаем инсталлер ' . $classNamespace . "::PostPackageInstall\n");
                 /** @var object $class */
