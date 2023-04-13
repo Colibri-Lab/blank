@@ -84,10 +84,14 @@ class Installer
                     require_once './vendor/' . $targetDir . '/' . $path . 'Installer.php';
                 }
 
+                if(!method_exists($class, 'PostPackageInstall')) {
+                    print_r('Пропускаем ' . "\n");
+                    continue;
+                }
+
                 print_r('Запускаем инсталлер ' . $classNamespace . "::PostPackageInstall\n");
                 /** @var object $class */
                 $class::PostPackageInstall($event);
-
             }
         }
     }
