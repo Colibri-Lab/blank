@@ -31,6 +31,8 @@ DateTimeField::$defaultLocale = 'RU_ru';
 
 try {
     
+    ob_start();
+
     $log = App::$request->get->log && App::$request->get->log !== 'no';
     $logger = new MemoryLogger();
     if ($log && File::Exists(App::$request->get->log)) {
@@ -59,6 +61,8 @@ try {
 
     $server = new WebServer();
     $server->Run($command, '/');
+
+    ob_end_flush();
 
 } catch (\Throwable $e) {
     Debug::Out($e->getMessage(), $e->getLine(), $e->getFile());
