@@ -1,5 +1,4 @@
 <?php
-use Colibri\Utils\Logs\MemoryLogger;
 
 /**
  * Стандартная точка входа для всех web запросов
@@ -26,6 +25,8 @@ use Colibri\Utils\Logs\ConsoleLogger;
 use Colibri\Utils\Logs\Logger;
 use Colibri\Utils\Logs\FileLogger;
 use Colibri\Data\Storages\Fields\DateTimeField;
+use Colibri\Queue\Manager as QueueManager;
+use Colibri\Utils\Logs\MemoryLogger;
 
 DateTimeField::$defaultLocale = 'RU_ru';
 
@@ -33,31 +34,32 @@ try {
     
     ob_start();
 
-    $log = App::$request->get->log && App::$request->get->log !== 'no';
+    $log = App::$request->get->log && App::$request->get->{'log'} !== 'no';
     $logger = new MemoryLogger();
-    if ($log && File::Exists(App::$request->get->log)) {
-        $logger = new FileLogger(Logger::Debug, App::$request->get->log);
+    if ($log && File::Exists(App::$request->get->{'log'})) {
+        $logger = new FileLogger(Logger::Debug, App::$request->get->{'log'});
     } elseif ($log) {
         $logger = new ConsoleLogger(Logger::Debug);
     }
 
-    if (App::$isDev || (App::$request->server->commandline && App::$request->get->command === 'migrate')) {
+    if (App::$isDev || (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'migrate')) {
         Storages::Create()->Migrate($logger, App::$isDev);
-        if (App::$request->server->commandline && App::$request->get->command === 'migrate') {
+        QueueManager::Create()->Migrate($logger);
+        if (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'migrate') {
             exit;
         }
     }
 
-    if (App::$isDev && (App::$request->server->commandline && App::$request->get->command === 'models-generate')) {
-        $logger->debug('Creating models for storage ' . App::$request->get->storage);
-        $storage = Storages::Create()->Load(App::$request->get->storage);
+    if (App::$isDev && (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'models-generate')) {
+        $logger->debug('Creating models for storage ' . App::$request->get->{'storage'});
+        $storage = Storages::Create()->Load(App::$request->get->{'storage'});
         Generator::GenerateModelClasses($storage);
         Generator::GenerateModelTemplates($storage);
         $logger->debug('Generation complete');
         exit;
     }
 
-    $command = App::$request->server->request_uri;
+    $command = App::$request->server->{'request_uri'};
 
     $server = new WebServer();
     $server->Run($command, '/');
