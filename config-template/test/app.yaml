@@ -10,6 +10,17 @@ monitoring:
   logging: 2 # 0 - EveryTimer, 1 - FullStackOnly, 2 - Never
   level: 2 # Logger::*
 
+# настройка очереди
+queue:
+  access-point: main
+  storages: 
+    list: jobs
+    success: jobs_successed
+    error: jobs_failed
+  timeout: 3
+  communication:
+    comet: true
+    
 # всякие настройки
 settings: include(settings.yaml)
 
