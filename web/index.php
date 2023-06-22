@@ -50,7 +50,7 @@ try {
         }
     }
 
-    if(App::$isDev || (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'queue')) {
+    if(App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'queue') {
         QueueManager::Create()->ProcessJobs(App::$request->get->{'queue'});
         exit;
     }
