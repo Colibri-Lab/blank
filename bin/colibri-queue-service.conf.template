@@ -1,0 +1,18 @@
+[Unit]
+Description=Colibri Queue Server
+Documentation=
+After=network.target nss-lookup.target
+
+[Service]
+LimitNOFILE=32768
+WorkingDirectory=[[working-dir]]
+ExecStart=[[working-dir]]/bin/queue.sh [[queue-name-list]]
+Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=colibri-queue
+User=root
+Group=root
+
+[Install]
+WantedBy=multi-user.target

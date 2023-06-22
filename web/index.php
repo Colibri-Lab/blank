@@ -50,6 +50,11 @@ try {
         }
     }
 
+    if(App::$isDev || (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'queue')) {
+        QueueManager::Create()->ProcessJobs(App::$request->get->{'queue'});
+        exit;
+    }
+
     if (App::$isDev && (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'models-generate')) {
         $logger->debug('Creating models for storage ' . App::$request->get->{'storage'});
         $storage = Storages::Create()->Load(App::$request->get->{'storage'});
