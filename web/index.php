@@ -34,7 +34,7 @@ try {
     
     ob_start();
 
-    $log = App::$request->get->log && App::$request->get->{'log'} !== 'no';
+    $log = App::$request->get->{'log'} && App::$request->get->{'log'} !== 'no';
     $logger = new MemoryLogger();
     if ($log && File::Exists(App::$request->get->{'log'})) {
         $logger = new FileLogger(Logger::Debug, App::$request->get->{'log'});

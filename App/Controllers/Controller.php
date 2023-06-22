@@ -146,7 +146,7 @@ class Controller extends WebController
     public function Vault($get, $post, $payload)
     {
 
-        if (App::$request->server->commandline) {
+        if (App::$request->server->{'commandline'}) {
             $fi = new Finder();
             $files = $fi->Files(App::$appRoot . 'config/');
             foreach ($files as $file) {
@@ -172,7 +172,7 @@ class Controller extends WebController
     public function Bundle($get, $post, $payload)
     {
 
-        if (App::$request->server->commandline) {
+        if (App::$request->server->{'commandline'}) {
 
             $this->_initDefaultBundleHandlers();
 
