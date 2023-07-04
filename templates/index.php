@@ -60,6 +60,7 @@ if(App::$moduleManager->Get('tools')) {
     ))?>" type="text/css" />
     <script type="text/javascript" src="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').'.assets.js', 'js', array_merge(
         [['path' => App::$appRoot.'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]], 
+        App::$moduleManager->GetPathsFromModuleConfig(['exts' => ['js', 'html']]),
         App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]), 
         App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]), 
     ))?>"></script>    
