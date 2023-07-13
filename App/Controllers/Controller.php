@@ -196,6 +196,7 @@ class Controller extends WebController
                         [['path' => App::$appRoot . 'vendor/colibri/ui/src/']],
                         [['path' => $themeFile]],
                         [['path' => App::$webRoot . 'res/css/']],
+                        App::$moduleManager->GetPathsFromModuleConfig(),
                         App::$moduleManager->GetPaths('web/res/css/'),
                         App::$moduleManager->GetPaths('.Bundle/'),
                         App::$moduleManager->GetPaths('templates/')
@@ -207,6 +208,7 @@ class Controller extends WebController
                     'js',
                     array_merge(
                         [['path' => App::$appRoot . 'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]],
+                        App::$moduleManager->GetPathsFromModuleConfig(['exts' => ['js', 'html']]),
                         App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]),
                         App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]),
                     )
@@ -229,9 +231,10 @@ class Controller extends WebController
                             [['path' => App::$appRoot . 'vendor/colibri/ui/src/']],
                             [['path' => $themeFile]],
                             [['path' => App::$webRoot . 'res/css/']],
+                            App::$moduleManager->GetPathsFromModuleConfig(),
                             App::$moduleManager->GetPaths('web/res/css/'),
                             App::$moduleManager->GetPaths('.Bundle/'),
-                            App::$moduleManager->GetPaths('templates/')
+                            App::$moduleManager->GetPaths('templates/'),
                         )
                     );
                     Bundle::Automate(
@@ -240,6 +243,7 @@ class Controller extends WebController
                         'js',
                         array_merge(
                             [['path' => App::$appRoot . 'vendor/colibri/ui/src/', 'exts' => ['js', 'html']]],
+                            App::$moduleManager->GetPathsFromModuleConfig(['exts' => ['js', 'html']]),
                             App::$moduleManager->GetPaths('.Bundle/', ['exts' => ['js', 'html']]),
                             App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]),
                         )
@@ -248,7 +252,6 @@ class Controller extends WebController
                 }
                 $langModule->InitCurrent($oldLangKey);
             }
-
 
         } else {
             throw new AppException('This command is allowed only in commandline mode');
