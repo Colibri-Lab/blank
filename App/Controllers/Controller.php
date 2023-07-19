@@ -20,6 +20,7 @@ use VaultApiClient\Client;
 use Colibri\Web\RequestCollection;
 use Colibri\Web\PayloadCopy;
 use Colibri\Utils\Minifiers\Javascript as Minifier;
+use Colibri\Exceptions\ApplicationErrorException;
 
 /**
  * Default controller
@@ -47,6 +48,7 @@ class Controller extends WebController
                 }
             } catch (\Throwable $e) {
                 App::$log->emergency($e->getMessage() . ' ' . $e->getFile() . ' ' . $e->getLine());
+                throw new ApplicationErrorException('Can not compile assets: ' . $e->getMessage());
             }
             return true;
         });
