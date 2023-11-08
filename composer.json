@@ -21,7 +21,7 @@
     "stability": "dev",
     "require": {
         "php": ">=8.0.0",
-        "scssphp/scssphp": "dev-master",
+        "scssphp/scssphp": "dev-main",
         "tedivm/jshrink": "dev-master",
         "composer/composer": "dev-main",
         "colibri/core": "dev-master",
