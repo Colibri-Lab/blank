@@ -34,7 +34,7 @@ $themeFile = null;
 $themeKey = '';
 if(App::$moduleManager->Get('tools')) {
     $themeFile = App::$moduleManager->Get('tools')->Theme(App::$domainKey);
-    $themeKey = md5($themeFile);
+    $themeKey = md5(str_replace(App::$webRoot, '', $themeFile));
 }
 
 ?>
