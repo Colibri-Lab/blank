@@ -6,4 +6,9 @@ then
     CURDIR=`pwd` 
 fi
 cd $CURDIR
-cd ../web && /usr/bin/php index.php localhost / command=models-generate storage=$1 
+if test -d ../web; then
+    cd ../web && /usr/bin/php index.php localhost / command=models-generate storage=$1 
+fi
+if test -d ../public; then
+    cd ../public && /usr/bin/php index.php localhost / command=models-generate storage=$1 
+fi
