@@ -129,6 +129,7 @@ class Controller extends WebController
 
         $appConfig = App::$config;
         $result = array_merge($appConfig->Query('settings')->AsArray(), [
+            'mode' => App::$mode,
             'hosts' => $appConfig->Query('hosts')->AsArray(),
             'current' => App::$domainKey,
             'comet' => $appConfig->Query('comet')->AsArray(),
