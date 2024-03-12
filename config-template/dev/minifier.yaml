@@ -1,0 +1,4 @@
+# type: uglify
+# type: shrink
+# command: '/usr/local/bin/uglifyjs --rename %s -o %s --compress --mangle --v8'
+

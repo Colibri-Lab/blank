@@ -1,0 +1,25 @@
+
+access-points: 
+
+  drivers:
+    mysql:
+      connection: Colibri\Data\MySql\Connection
+      command: Colibri\Data\MySql\Command
+      reader: Colibri\Data\MySql\DataReader
+      querybuilder: Colibri\Data\MySql\QueryBuilder
+
+  connections:
+    default_connection:
+      type: mysql
+      host: host_name
+      port: 3306
+      user: user_name
+      password: user_password
+
+  points:
+    main: 
+      connection: default_connection
+      database: user_database
+
+# включить, если используется система хранилищь    
+# storages: include(storages.yaml)

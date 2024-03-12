@@ -1,0 +1,8 @@
+domains:
+  manage: 
+    - "localhost"
+services:
+  vault: "vault.colibrilab.ru"
+  fs: "fs.colibrilab.ru"
+  tpl: "templates.colibrilab.ru"
+  print: "printsrv.colibrilab.ru"
