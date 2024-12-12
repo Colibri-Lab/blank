@@ -3,6 +3,7 @@
 
 #   drivers:
 #     mysql:
+#       config: Colibri\Data\MySql\Config
 #       connection: Colibri\Data\MySql\Connection
 #       command: Colibri\Data\MySql\Command
 #       reader: Colibri\Data\MySql\DataReader
