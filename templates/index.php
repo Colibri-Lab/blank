@@ -32,9 +32,11 @@ foreach($footerTemplates as $template) {
 
 $themeFile = null;
 $themeKey = '';
+$themeName = '';
 if(App::$moduleManager->Get('tools')) {
     $themeFile = App::$moduleManager->Get('tools')->Theme(App::$domainKey);
-    $themeKey = md5(str_replace(App::$webRoot, '', $themeFile));
+    $themeName = App::$moduleManager->Get('tools')->ThemeName(App::$domainKey);
+    $themeKey = md5($themeFile);
 }
 
 ?>
@@ -46,7 +48,7 @@ if(App::$moduleManager->Get('tools')) {
         <?php /* ?><style>body { display: none; }</style><?php */ ?>
         <?=implode('', $headers ?? [])?>
     </head>
-    <body>
+    <body data-theme="<?=$themeName?>">
         <?=implode('', $bodies ?? [])?>
     </body>
     <link rel="stylesheet" href="<?=Bundle::Automate(App::$domainKey, ($langModule ? $langModule->current : '').($themeKey ? '.'.$themeKey : '').'.assets.css', 'scss', array_merge(
