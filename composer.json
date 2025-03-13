@@ -63,6 +63,10 @@
         "gitlab.colibrilab.pro/51": {
             "type": "composer",
             "url": "https://gitlab.colibrilab.pro/api/v4/group/51/-/packages/composer/packages.json"
+        },
+        "gitlab.colibrilab.pro/14": {
+            "type": "composer",
+            "url": "https://gitlab.colibrilab.pro/api/v4/group/14/-/packages/composer/packages.json"
         }
     }
 }
