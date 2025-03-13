@@ -12,7 +12,7 @@ monitoring:
 
 # настройка очереди
 queue:
-  access-point: main
+  access-point: productivity
   storages: 
     list: jobs
     success: jobs_successed
