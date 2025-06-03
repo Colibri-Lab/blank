@@ -257,7 +257,7 @@ class Controller extends WebController
                 $langModule->InitCurrent($oldLangKey);
             }
 
-            $serviceWorkerCacheFiles = '\'' . implode('\',\n\t\'', $files) . '\'';
+            $serviceWorkerCacheFiles = '\'' . implode("',\n\t'", $files) . '\'';
             if(File::Exists(App::$webRoot . 'service-worker.js')) {
                 $content = File::Read(App::$webRoot . 'service-worker.js');
                 $content = str_replace('[[cache]]', $serviceWorkerCacheFiles, $content);
