@@ -179,6 +179,7 @@ class Controller extends WebController
 
             $this->_initDefaultBundleHandlers();
 
+            $files = [];
             $langModule = App::$moduleManager->Get('lang');
 
             $themeFile = null;
@@ -191,7 +192,7 @@ class Controller extends WebController
 
             if (!$langModule) {
                 // языки не подключены
-                Bundle::Automate(
+                $files[] = Bundle::Automate(
                     App::$domainKey,
                     ($themeKey ? '.' . $themeKey : '') . '.assets.css',
                     'scss',
@@ -205,7 +206,7 @@ class Controller extends WebController
                         App::$moduleManager->GetPaths('templates/')
                     )
                 );
-                Bundle::Automate(
+                $files[] = Bundle::Automate(
                     App::$domainKey, 
                     '.assets.js',
                     'js',
@@ -226,7 +227,7 @@ class Controller extends WebController
 
                     $langModule->InitCurrent($langKey);
 
-                    Bundle::Automate(
+                    $files[] = Bundle::Automate(
                         App::$domainKey,
                         ($langKey . '.') . ($themeKey ? $themeKey . '.' : '') . 'assets.css',
                         'scss',
@@ -240,7 +241,7 @@ class Controller extends WebController
                             App::$moduleManager->GetPaths('templates/'),
                         )
                     );
-                    Bundle::Automate(
+                    $files[] = Bundle::Automate(
                         App::$domainKey, 
                         ($langKey . '.') . 'assets.js',
                         'js',
@@ -254,6 +255,13 @@ class Controller extends WebController
 
                 }
                 $langModule->InitCurrent($oldLangKey);
+            }
+
+            $serviceWorkerCacheFiles = '\'' . implode('\',\n\t\'', $files) . '\'';
+            if(File::Exists(App::$webRoot . 'service-worker.js')) {
+                $content = File::Read(App::$webRoot . 'service-worker.js');
+                $content = str_replace('[[cache]]', $serviceWorkerCacheFiles, $content);
+                File::Write(App::$webRoot . 'service-worker.js', $content);
             }
 
         } else {
