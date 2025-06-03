@@ -260,7 +260,7 @@ class Controller extends WebController
             $serviceWorkerCacheFiles = '\'' . implode("',\n\t'", $files) . '\'';
             if(File::Exists(App::$webRoot . 'service-worker.js')) {
                 $content = File::Read(App::$webRoot . 'service-worker.js');
-                $content = str_replace('[[cache]]', $serviceWorkerCacheFiles, $content);
+                $content = str_replace('\'[[cache]]\'', $serviceWorkerCacheFiles, $content);
                 File::Write(App::$webRoot . 'service-worker.js', $content);
             }
 
