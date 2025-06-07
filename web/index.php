@@ -43,21 +43,21 @@ try {
     }
 
     if (App::$isDev || (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'migrate')) {
-        Storages::Create()->Migrate($logger, App::$isDev);
-        QueueManager::Create()->Migrate($logger);
+        Storages::Instance()->Migrate($logger, App::$isDev);
+        QueueManager::Instance()->Migrate($logger);
         if (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'migrate') {
             exit;
         }
     }
 
     if(App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'queue') {
-        QueueManager::Create()->ProcessJobs(App::$request->get->{'queue'});
+        QueueManager::Instance()->ProcessJobs(App::$request->get->{'queue'});
         exit;
     }
 
     if (App::$isDev && (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'models-generate')) {
         $logger->debug('Creating models for storage ' . App::$request->get->{'storage'});
-        $storage = Storages::Create()->Load(App::$request->get->{'storage'});
+        $storage = Storages::Instance()->Load(App::$request->get->{'storage'});
         Generator::GenerateModelClasses($storage);
         Generator::GenerateModelTemplates($storage);
         $logger->debug('Generation complete');

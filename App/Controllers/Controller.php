@@ -37,7 +37,7 @@ class Controller extends WebController
     private function _initDefaultBundleHandlers()
     {
         // Обработка scss
-        App::Create()->HandleEvent(EventsContainer::BundleComplete, function ($event, $args) {
+        App::Instance()->HandleEvent(EventsContainer::BundleComplete, function ($event, $args) {
             try {
                 if (in_array('scss', $args->exts)) {
                     $scss = new Compiler();
@@ -54,7 +54,7 @@ class Controller extends WebController
         });
 
         // если есть бандлер то нужно запустить генерация javascript из шаблонов
-        App::Create()->HandleEvent(EventsContainer::BundleFile, function ($event, $args) {
+        App::Instance()->HandleEvent(EventsContainer::BundleFile, function ($event, $args) {
             $file = new File($args->file);
             if ($file->extension !== 'html') {
                 return true;
