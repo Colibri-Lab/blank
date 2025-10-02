@@ -70,6 +70,7 @@
         }
     },
     "config": {
+        "secure-http": false,
         "allow-plugins": {
             "*": true
         }
