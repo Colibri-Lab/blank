@@ -68,8 +68,5 @@
             "type": "composer",
             "url": "https://gitlab.colibrilab.pro/api/v4/group/14/-/packages/composer/packages.json"
         }
-    },
-    "config": {
-        "allow-plugins": true
     }
 }
