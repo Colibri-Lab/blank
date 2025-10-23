@@ -21,6 +21,7 @@ use Colibri\Web\RequestCollection;
 use Colibri\Web\PayloadCopy;
 use Colibri\Utils\Minifiers\Javascript as Minifier;
 use Colibri\Exceptions\ApplicationErrorException;
+use Colibri\IO\FileSystem\Directory;
 
 /**
  * Default controller
@@ -262,6 +263,17 @@ class Controller extends WebController
                 $content = File::Read(App::$webRoot . 'service-worker.js');
                 $content = str_replace('\'[[cache]]\'', $serviceWorkerCacheFiles, $content);
                 File::Write(App::$webRoot . 'service-worker.js', $content);
+            }
+
+            $cachePath = App::$webRoot . 'res/';
+            $externalPaths = App::$moduleManager->GetExternalScriptsFromModuleConfig();
+            foreach($externalPaths as $externalPath => $folder) {
+                $pathInfo = Directory::PathInfo($externalPath);
+                $resultFileName = $pathInfo['basename'];
+                $response = Request::Get($externalPath);
+                if($response->status === 200) {
+                    File::Write((string)$cachePath . $folder . '/' . $resultFileName, $response->data, true, '777');
+                }
             }
 
         } else {
