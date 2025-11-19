@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Controllers;
 
 use Colibri\App;
@@ -30,7 +29,6 @@ use Colibri\IO\FileSystem\Directory;
  */
 class Controller extends WebController
 {
-
     /**
      * Initialized the bundle handlers
      * @return void
@@ -182,6 +180,7 @@ class Controller extends WebController
 
             $files = [];
             $langModule = App::$moduleManager->Get('lang');
+            $selectedLangs = explode(',', $get?->langs) ?? [];
 
             $themeFile = null;
             $themeKey = '';
@@ -208,7 +207,7 @@ class Controller extends WebController
                     )
                 );
                 $files[] = Bundle::Automate(
-                    App::$domainKey, 
+                    App::$domainKey,
                     '.assets.js',
                     'js',
                     array_merge(
@@ -218,14 +217,16 @@ class Controller extends WebController
                         App::$moduleManager->GetPaths('templates/', ['exts' => ['js', 'html']]),
                     )
                 );
-            }
-            else {
+            } else {
                 // языки подключены
 
                 $oldLangKey = $langModule->current;
                 $langs = $langModule->Langs();
                 foreach ($langs as $langKey => $langData) {
-
+                    if(!empty($selectedLangs) && !in_array($langKey, $selectedLangs)) {
+                        continue;
+                    }
+                    
                     $langModule->InitCurrent($langKey);
 
                     $files[] = Bundle::Automate(
@@ -243,7 +244,7 @@ class Controller extends WebController
                         )
                     );
                     $files[] = Bundle::Automate(
-                        App::$domainKey, 
+                        App::$domainKey,
                         ($langKey . '.') . 'assets.js',
                         'js',
                         array_merge(
