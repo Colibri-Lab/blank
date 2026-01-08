@@ -76,22 +76,27 @@ class Installer
         $psr4 = isset($autoload['psr-4']) ? $autoload['psr-4'] : [];
         foreach ($psr4 as $classNamespace => $path) {
 
-            if (file_exists('./vendor/' . $targetDir . '/' . $path . 'Installer.php')) {
-                print_r('Пост установка пакета ' . $classNamespace . "\n");
-
-                $class = $classNamespace . 'Installer';
-                if(!class_exists($class)) {
-                    require_once './vendor/' . $targetDir . '/' . $path . 'Installer.php';
+            if(is_string($path)) {
+                $path = [$path];
+            }
+            foreach($path as $p) {
+                if (file_exists('./vendor/' . $targetDir . '/' . $p . 'Installer.php')) {
+                    print_r('Пост установка пакета ' . $classNamespace . "\n");
+    
+                    $class = $classNamespace . 'Installer';
+                    if(!class_exists($class)) {
+                        require_once './vendor/' . $targetDir . '/' . $p . 'Installer.php';
+                    }
+    
+                    if(!method_exists($class, 'PostPackageInstall')) {
+                        print_r('Пропускаем ' . "\n");
+                        continue;
+                    }
+    
+                    print_r('Запускаем инсталлер ' . $classNamespace . "::PostPackageInstall\n");
+                    /** @var object $class */
+                    $class::PostPackageInstall($event);
                 }
-
-                if(!method_exists($class, 'PostPackageInstall')) {
-                    print_r('Пропускаем ' . "\n");
-                    continue;
-                }
-
-                print_r('Запускаем инсталлер ' . $classNamespace . "::PostPackageInstall\n");
-                /** @var object $class */
-                $class::PostPackageInstall($event);
             }
         }
     }
