@@ -57,7 +57,15 @@ try {
 
     if (App::$isDev && (App::$request->server->{'commandline'} && App::$request->get->{'command'} === 'models-generate')) {
         $logger->debug('Creating models for storage ' . App::$request->get->{'storage'});
-        $storage = Storages::Instance()->Load(App::$request->get->{'storage'});
+        $storageName = App::$request->get->{'storage'};
+        if(strstr($storageName, '.') !== false) {
+            $storageName = explode('.', $storageName);
+            $moduleName = $storageName[0];
+            $storageName = $storageName[1];
+            $storage = Storages::Instance()->Load($storageName, $moduleName);
+        } else {
+            $storage = Storages::Instance()->Load($storageName);
+        }
         Generator::GenerateModelClasses($storage);
         Generator::GenerateModelTemplates($storage);
         $logger->debug('Generation complete');
