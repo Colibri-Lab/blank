@@ -15,6 +15,7 @@ use Colibri\Common\VariableHelper;
 use Colibri\Common\XmlHelper;
 use Colibri\IO\FileSystem\File;
 use Colibri\Data\Storages\Fields\DateTimeField;
+use Colibri\Events\Event;
 use Colibri\Events\EventDispatcher;
 use Colibri\Events\EventsContainer;
 use Colibri\Web\Request;
@@ -123,6 +124,24 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
         $isRequestTyped
     ] = ParseCommand($cmd);
 
+    if ((!class_exists($class) || !method_exists($class, $method))) {
+
+        // if the request is not exists and it's a file in web root then return it as file
+        if(File::Exists(App::$webRoot . $cmd)) {
+            return ServerFinish(
+                $psrRequest, 
+                Stream, 
+                [
+                    'code' => 200,
+                    'result' => File::Read(App::$webRoot . $cmd),
+                    'message' => basename($cmd)
+                ]
+            );
+        }
+        // если не нашли чего делать то пробуем по умолчанию
+        [$type, $class, $method, $isRequestTyped] = ParseCommand('/');
+    }
+
     $headers = App::$request->headers;
     $requestMethod = App::$request->server->{'request_method'} ?? 'GET';
     $get = App::$request->get;
@@ -133,7 +152,7 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
 
         $message = 'CSFR token is incorrect';
 
-        EventDispatcher::Instance()->Dispatch(EventsContainer::RpcRequestError, (object) [
+        EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcRequestError), (object) [
             'class' => $class,
             'method' => $method,
             'get' => $get,
@@ -156,48 +175,38 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
         'post' => $post,
         'payload' => $payload
     ];
-    EventDispatcher::Instance()->Dispatch(EventsContainer::RpcGotRequest, $args);
+    EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcGotRequest), $args);
     if (isset($args->cancel) && $args->cancel === true) {
         $result = isset($args->result) ? $args->result : (object) [];
         return ServerFinish($psrRequest, $type, $result);
     }
 
     if (!class_exists($class)) {
-        if(File::Exists(App::$webRoot . $cmd)) {
-            return ServerFinish(
-                $psrRequest, 
-                Stream, 
-                [
-                    'code' => 200,
-                    'result' => File::Read(App::$webRoot . $cmd),
-                    'message' => basename($cmd)
-                ]
-            );
-        } else {
-            
-            $message = 'Unknown class ' . $class;
-            EventDispatcher::Instance()->Dispatch(EventsContainer::RpcRequestError, (object) [
-                'class' => $class,
-                'method' => $method,
-                'get' => $get,
-                'post' => $post,
-                'payload' => $payload,
-                'message' => $message
-            ]);
+    
+        
+        $message = 'Unknown class ' . $class;
+        EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcRequestError), (object) [
+            'class' => $class,
+            'method' => $method,
+            'get' => $get,
+            'post' => $post,
+            'payload' => $payload,
+            'message' => $message
+        ]);
 
-            return ResponseWithError($psrRequest, $type, $message, IncorrectCommandObject, $cmd, [
-                'message' => $message,
-                'code' => IncorrectCommandObject,
-                'get' => $get,
-                'post' => $post,
-                'payload' => $payload
-            ]);
-        }
+        return ResponseWithError($psrRequest, $type, $message, IncorrectCommandObject, $cmd, [
+            'message' => $message,
+            'code' => IncorrectCommandObject,
+            'get' => $get,
+            'post' => $post,
+            'payload' => $payload
+        ]);
+        
     }
 
     if (!method_exists($class, $method)) {
         $message = 'Unknown method ' . $method . ' in object ' . $class;
-        EventDispatcher::Instance()->Dispatch(EventsContainer::RpcRequestError, (object) [
+        EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcRequestError), (object) [
             'class' => $class,
             'method' => $method,
             'get' => $get,
@@ -304,7 +313,7 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
             'result' => $result,
             'type' => ($result?->type ?? null) ?: $type
         ];
-        EventDispatcher::Instance()->Dispatch(EventsContainer::RpcRequestProcessed, $args);
+        EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcRequestProcessed), $args);
 
         if((($result?->type ?? null) ?: $type) !== Stream) {
             $args->result = NoLangHelper::ParseArray($args->result);
@@ -386,6 +395,7 @@ function ServerFinish(ServerRequestInterface $request, string $type, mixed $resu
     ];
 
     foreach($cookies as $cookie) {
+        $cookie = (object)$cookie;
         $setCookies[] = '' . $cookie->name . '=' . $cookie->value . '; ' .
             'Expires=' . (isset($cookie->expire) ? gmdate('D, d M Y H:i:s T', $cookie->expire) : 'Session') . '; ' .
             'Path=' . ($cookie->path ?? '/') . '; ' .
@@ -442,13 +452,12 @@ $http = new HttpServer(function (ServerRequestInterface $psrRequest) use ($webPa
     echo "New request received: " . App::$request->address . ' ' . App::$request->uri . "\n";
     flush();
     $waitForAnswer = (App::$server->{'http_waitforanswer'} ?? 'true') === 'true';
-    $serverModule = App::$moduleManager->{'server'};
     if(!$waitForAnswer) {
-        Loop::futureTick(function () use ($psrRequest, $serverModule) {
-            $serverModule->HandleRequest($psrRequest);
+        Loop::futureTick(function () use ($psrRequest) {
+            HandleRequest($psrRequest);
         });
     } else {
-        return $serverModule->HandleRequest($psrRequest);
+        return HandleRequest($psrRequest);
     }
 });
 

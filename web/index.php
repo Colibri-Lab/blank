@@ -31,6 +31,8 @@ use Colibri\Utils\Logs\MemoryLogger;
 DateTimeField::$defaultLocale = 'RU_ru';
 
 try {
+
+    App::Instance()->Initialize();
     
     ob_start();
 
