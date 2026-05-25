@@ -1,0 +1,33 @@
+[Unit]
+Description=ReactPHP Server
+After=network.target
+Wants=network.target
+
+[Service]
+Type=simple
+
+User=www-data
+Group=www-data
+
+WorkingDirectory={app-root}/web
+
+ExecStart=/usr/bin/php {app-root}/web/server.php
+
+Restart=always
+RestartSec=3
+
+# logs
+StandardOutput=journal
+StandardError=journal
+
+# safety limits
+LimitNOFILE=65535
+
+# kill properly
+KillMode=process
+TimeoutStopSec=10
+
+Environment=APP_ENV=production
+
+[Install]
+WantedBy=multi-user.target
