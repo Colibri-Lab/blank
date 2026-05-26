@@ -49,8 +49,6 @@ const Stream = 'stream';
 const IncorrectCommandObject = 1;
 const UnknownMethodInObject = 2;
 
-$loop = Loop::get();
-
 
 /**
  * Gets the full controller class name with namespace.
@@ -443,6 +441,8 @@ function ResponseWithError(
     ]);
 }
 
+$loop = Loop::get();
+
 $webPath = __DIR__;
 $http = new HttpServer(function (ServerRequestInterface $psrRequest) use ($webPath) {
     $request = new Request($psrRequest);
@@ -461,9 +461,10 @@ $http = new HttpServer(function (ServerRequestInterface $psrRequest) use ($webPa
     }
 });
 
-$socket = new SocketServer('0.0.0.0:443', [], $loop);
+$socket443 = new SocketServer('0.0.0.0:443', [], $loop);
+$socket80 = new SocketServer('0.0.0.0:80', [], $loop);
 
-$secure = new SecureServer($socket, $loop, [
+$secure = new SecureServer($socket443, $loop, [
     'local_cert' => '/etc/nginx/ssl/server.crt',
     'local_pk'   => '/etc/nginx/ssl/server.key',
     'allow_self_signed' => true,
@@ -471,5 +472,7 @@ $secure = new SecureServer($socket, $loop, [
 ]);
 
 $http->listen($secure);
+$http->listen($socket80);
+
 
 $loop->run();
