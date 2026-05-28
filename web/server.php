@@ -113,12 +113,12 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
     $request = new Request($psrRequest);
     $response = new Response();
     App::Instance()->Initialize($request, $response, true);
-    
+
     $cmd = $request->uri;
     [
-        $type, 
-        $class, 
-        $method, 
+        $type,
+        $class,
+        $method,
         $isRequestTyped
     ] = ParseCommand($cmd);
 
@@ -127,8 +127,8 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
         // if the request is not exists and it's a file in web root then return it as file
         if(File::Exists(App::$webRoot . $cmd)) {
             return ServerFinish(
-                $psrRequest, 
-                Stream, 
+                $psrRequest,
+                Stream,
                 [
                     'code' => 200,
                     'result' => File::Read(App::$webRoot . $cmd),
@@ -180,8 +180,8 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
     }
 
     if (!class_exists($class)) {
-    
-        
+
+
         $message = 'Unknown class ' . $class;
         EventDispatcher::Instance()->Dispatch(new Event(App::Instance(), EventsContainer::RpcRequestError), (object) [
             'class' => $class,
@@ -199,7 +199,7 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
             'post' => $post,
             'payload' => $payload
         ]);
-        
+
     }
 
     if (!method_exists($class, $method)) {
@@ -234,7 +234,7 @@ function HandleRequest(ServerRequestInterface $psrRequest): MessageResponse
         return ServerFinish($psrRequest, $type, (object) ['code' => 200, 'message' => 'ok', 'options' => true]);
     } else {
 
-        
+
 
         try {
             $obj = new $class($type, $isRequestTyped);
@@ -356,7 +356,58 @@ function ServerFinish(ServerRequestInterface $request, string $type, mixed $resu
         (\is_string($result->result) && \is_string($result->message))
     ) {
 
+        $ext = strtolower(pathinfo($result->message, PATHINFO_EXTENSION));
         $mime = MimeType::Create($result->message);
+        $staticExtensions = [
+            'jpg', 'jpeg', 'gif', 'png', 'ico',
+            'mp3', 'css', 'zip', 'tgz', 'gz',
+            'rar', 'bz2', 'doc', 'xls', 'exe',
+            'pdf', 'dat', 'avi', 'ppt', 'txt',
+            'tar', 'mid', 'midi', 'wav', 'bmp',
+            'rtf', 'wmv', 'mpeg', 'mpg', 'tbz',
+            'js', 'woff', 'ttf', 'eot', 'svg',
+            'swf', 'webp'
+        ];
+
+        if (in_array($ext, $staticExtensions, true)) {
+
+            // expires modified +168h
+            $expires = gmdate(
+                'D, d M Y H:i:s',
+                time() + (168 * 3600)
+            ) . ' GMT';
+
+            $headers['Expires'] = $expires;
+
+            // add_header Cache-Control private
+            $headers['Cache-Control'] = 'private';
+
+            // add_header Access-Control-Allow-Origin *
+            $headers['Access-Control-Allow-Origin'] = '*';
+        }
+
+        $gzipExtensions = [
+            'js',
+            'css',
+            'html',
+            'json',
+            'svg',
+            'txt'
+        ];
+
+        $acceptEncoding = $request->getHeaderLine('Accept-Encoding');
+
+        if (
+            in_array($ext, $gzipExtensions, true) &&
+            str_contains($acceptEncoding, 'gzip')
+        ) {
+
+            $result->result = gzencode($result->result, 6);
+            $headers['Content-Encoding'] = 'gzip';
+            $headers['Vary'] = 'Accept-Encoding';
+
+        }
+
         return new MessageResponse($result->code ?: 200, VariableHelper::Extend($headers, [
             'Content-Description' => 'File Transfer',
             'Content-Disposition' => 'attachment; filename="' . $result->message . '"',
@@ -408,11 +459,11 @@ function ServerFinish(ServerRequestInterface $request, string $type, mixed $resu
     $content = Encoding::Convert($content, $encoding, Encoding::UTF8);
 
     return new MessageResponse(
-        $result->code ?: 200, 
-        VariableHelper::Extend($headers, $result?->headers ?? []), 
+        $result->code ?: 200,
+        VariableHelper::Extend($headers, $result?->headers ?? []),
         $content
     );
-    
+
 }
 
 function ResponseWithError(
@@ -440,7 +491,6 @@ function ResponseWithError(
         ]
     ]);
 }
-
 $loop = Loop::get();
 
 $webPath = __DIR__;
@@ -461,10 +511,10 @@ $http = new HttpServer(function (ServerRequestInterface $psrRequest) use ($webPa
     }
 });
 
-$socket443 = new SocketServer('0.0.0.0:443', [], $loop);
+$socket = new SocketServer('0.0.0.0:443', [], $loop);
 $socket80 = new SocketServer('0.0.0.0:80', [], $loop);
 
-$secure = new SecureServer($socket443, $loop, [
+$secure = new SecureServer($socket, $loop, [
     'local_cert' => '/etc/nginx/ssl/server.crt',
     'local_pk'   => '/etc/nginx/ssl/server.key',
     'allow_self_signed' => true,
@@ -473,6 +523,5 @@ $secure = new SecureServer($socket443, $loop, [
 
 $http->listen($secure);
 $http->listen($socket80);
-
 
 $loop->run();
