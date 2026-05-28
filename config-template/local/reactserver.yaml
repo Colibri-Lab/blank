@@ -1,6 +1,6 @@
 secure: 
     listen: '0.0.0.0:443'
-    cert: '/etc/nginx/ssl/server.crt'
+    crt: '/etc/nginx/ssl/server.crt'
     key: '/etc/nginx/ssl/server.key'
     selfsigned: true
     verifypeer: false
