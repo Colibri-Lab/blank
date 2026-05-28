@@ -41,3 +41,5 @@ comet: include(comet.yaml)
 mobile: include(mobile.yaml)
 
 minifier: include(minifier.yaml)
+
+reactserver: include(reactserver.yaml)
