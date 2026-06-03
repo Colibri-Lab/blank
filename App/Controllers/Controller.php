@@ -109,7 +109,10 @@ class Controller extends WebController
             $file = $e->getFile();
             $line = $e->getLine();
             $trace = $e->getTraceAsString();
-            $html = require('error.php');
+            ob_start();
+            require('error.php');
+            $html = ob_get_contents();
+            ob_end_clean();
         }
 
         return $this->Finish($code, $html);
