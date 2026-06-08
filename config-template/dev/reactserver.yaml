@@ -6,3 +6,5 @@ secure:
     verifypeer: false
 nonsecure:
     listen: '0.0.0.0:80'
+status: 
+    listen: '0.0.0.0:9000'
