@@ -30,7 +30,8 @@
         "colibri/comet-api-client": "dev-master",
         "colibri/fileserver-api-client": "dev-master",
         "react/http": "^1.11.0",
-        "react/socket": "^1.17.0"
+        "react/socket": "^1.17.0",
+        "clue/multicast-react": "1.x-dev"
     },
     "autoload": {
         "psr-4": {

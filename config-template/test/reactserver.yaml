@@ -8,3 +8,9 @@ nonsecure:
     listen: '0.0.0.0:80'
 status: 
     listen: '0.0.0.0:9000'
+limits:
+    concurent_connections: 100
+    body_buffer_size: 1073741824
+    body_parser: 
+        max_size: 1073741824
+        max_files: 100
